@@ -1,0 +1,552 @@
+================================================================================
+CONTRACT EVOLUTION TRACE - ITERATION BY ITERATION
+================================================================================
+Scenario: MotorUpgrade
+Generated: 2026-01-08 00:49:52
+
+This trace shows how each component's contract evolved through fixpoint iterations.
+Total iterations: 8
+  - Iteration 0: Baseline contracts (initial state)
+  - Iterations 1-7: Evolution through fixpoint operator Φ
+
+================================================================================
+ITERATION 0
+================================================================================
+Initial state: Baseline contracts + target deviation
+Total magnitude: 22.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(motor_response_time∈[0.05, 0.50], motor_thrust∈[0.00, 25.00], nav_position_error∈[0.50, 6.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:17)
+  Magnitude: 22.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(thrust_command∈[5.00, 25.00], voltage_available∈[11.50, 12.60])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(motor_current∈[2.00, 12.00], motor_response_time∈[0.08, 0.35], motor_thrust∈[5.00, 25.00])
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_voltage∈[11.50, 12.60], motor_current∈[0.00, 15.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 1
+================================================================================
+After applying evolution operator Φ (iteration 1)
+Total magnitude: 42.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:5)
+  Magnitude: 10.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:17)
+  Magnitude: 22.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(thrust_command∈[5.00, 25.00], voltage_available∈[11.50, 12.60])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(motor_current∈[2.00, 12.00], motor_response_time∈[0.08, 0.35], motor_thrust∈[5.00, 25.00])
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: (none - using baseline)
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:5)
+  Magnitude: 10.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 2
+================================================================================
+After applying evolution operator Φ (iteration 2)
+Total magnitude: 102.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:5)
+  Magnitude: 10.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:10, ΔG_str:10)
+  Magnitude: 20.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:15, ΔG_str:17)
+  Magnitude: 32.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:5, ΔG_str:5)
+  Magnitude: 10.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:15, ΔG_str:15)
+  Magnitude: 30.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 3
+================================================================================
+After applying evolution operator Φ (iteration 3)
+Total magnitude: 163.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:20, ΔG_str:20)
+  Magnitude: 40.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:18, ΔG_str:18)
+  Magnitude: 36.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:19, ΔG_str:13)
+  Magnitude: 32.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:15, ΔG_str:15)
+  Magnitude: 30.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:12, ΔG_str:13)
+  Magnitude: 25.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 4
+================================================================================
+After applying evolution operator Φ (iteration 4)
+Total magnitude: 174.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:16, ΔG_str:16)
+  Magnitude: 32.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:19)
+  Magnitude: 36.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:16, ΔG_str:19)
+  Magnitude: 35.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 5
+================================================================================
+After applying evolution operator Φ (iteration 5)
+Total magnitude: 178.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:19)
+  Magnitude: 36.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 6
+================================================================================
+After applying evolution operator Φ (iteration 6)
+Total magnitude: 179.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+ITERATION 7
+================================================================================
+After applying evolution operator Φ (iteration 7)
+Total magnitude: 179.0
+
+--------------------------------------------------------------------------------
+Component: Battery
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
+
+--------------------------------------------------------------------------------
+Component: FlightController
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
+
+--------------------------------------------------------------------------------
+Component: Motor
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (0 boxes):
+
+--------------------------------------------------------------------------------
+Component: NavigationEstimator
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:17)
+  Magnitude: 34.0
+
+Reconstructed Contract:
+  Assumptions (1 boxes):
+    [1] ZonotopeRegion(control_error∈[0.00, 15.00], motor_current∈[0.00, 15.00], power_mode∈[0.00, 1.00])
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+
+--------------------------------------------------------------------------------
+Component: PowerManager
+--------------------------------------------------------------------------------
+Deviation: Deviation(ΔA_str:17, ΔG_str:20)
+  Magnitude: 37.0
+
+Reconstructed Contract:
+  Assumptions (0 boxes):
+
+  Guarantees (1 boxes):
+    [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
+
+
+================================================================================
+END OF CONTRACT TRACE
+================================================================================
