@@ -60,7 +60,12 @@ def run_scenario(scenario, output_dir: str):
     )
     
     # Create fixpoint engine
-    fixpoint_engine = FixpointEngine(evolution_op, max_iterations=100)
+    fixpoint_engine = FixpointEngine(
+        evolution_op, 
+        max_iterations=100,
+        scenario_name=scenario.name,
+        output_dir=output_dir
+    )
     
     # Initialize deviation map with target change
     initial_delta = DeviationMap()
@@ -544,7 +549,7 @@ def main():
     scenario1 = create_motor_upgrade_scenario()
     scenario2 = create_nav_drift_scenario()
     
-    scenarios = [scenario1, scenario2]
+    scenarios = [scenario1]
     print(f"Created {len(scenarios)} scenario(s)\n")
     
     # Run each scenario

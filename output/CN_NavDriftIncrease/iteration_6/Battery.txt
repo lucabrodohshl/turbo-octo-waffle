@@ -1,0 +1,51 @@
+================================================================================
+COMPONENT: Battery
+ITERATION: 6
+================================================================================
+
+Component Information:
+  Inputs:  ['power_mode']
+  Outputs: ['battery_current', 'battery_soc', 'battery_voltage']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      1 boxes
+  ΔA_str (assumption strengthening):   0 boxes
+  ΔG_rel (guarantee relaxation):       1 boxes
+  ΔG_str (guarantee strengthening):    0 boxes
+  Total magnitude:                     2.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    power_mode                     ∈ [    0.0000,     1.0000]
+
+  Sample baseline guarantee:
+    battery_current                ∈ [    0.0000,    30.0000]
+    battery_soc                    ∈ [   60.0000,   100.0000]
+    battery_voltage                ∈ [   11.5000,    12.6000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  2 boxes
+  Guarantees:   2 boxes
+
+  All Assumption Boxes:
+    Box 1:
+      power_mode                   ∈ [    0.0000,     1.0000]
+
+    Box 2:
+      power_mode                   ∈ [    0.0000,     3.0000]
+
+  All Guarantee Boxes:
+    Box 1:
+      battery_current              ∈ [    0.0000,    30.0000]
+      battery_soc                  ∈ [   60.0000,   100.0000]
+      battery_voltage              ∈ [   11.5000,    12.6000]
+
+    Box 2:
+      battery_current              ∈ [    0.0000,    40.0000]
+      battery_soc                  ∈ [   20.0000,   100.0000]
+      battery_voltage              ∈ [    9.5000,    12.6000]
+
+================================================================================

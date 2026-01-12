@@ -1,1 +1,60 @@
 # turbo-octo-waffle
+
+Contract-based design framework with dynamic evolution and MILP-based transformers for drone system analysis.
+
+## Fail-Fast MILP Behavior
+
+This system implements **strict fail-fast semantics** for all MILP-based contract transformers (`post` and `pre`). This ensures mathematical correctness and preserves theoretical properties.
+
+### Key Properties
+
+1. **No Fallback Bounds**: If any MILP optimization cannot be solved to proven optimality, the system terminates immediately. No approximate bounds (e.g., -1000/+1000) are used.
+
+2. **Total Functions Only on Solvable Inputs**: The `post()` and `pre()` transformers are only defined on inputs where all required optimizations can be solved optimally.
+
+3. **Hard Failures**:
+   - Model infeasibility
+   - Unbounded objectives
+   - Solver errors or timeouts
+   - Any non-optimal status
+   
+   All of these conditions cause immediate termination with detailed diagnostics.
+
+4. **Detailed Error Reporting**: When a failure occurs, the system generates:
+   - `output/solver_failure_report.txt` - Human-readable report
+   - `output/solver_failure_report.json` - Structured JSON data
+   
+   Reports include:
+   - Component name and transformer type (post/pre)
+   - Variable being optimized and direction (min/max)
+   - Solver name and status
+   - Input/output regions with bounds
+   - Iteration number in fixpoint loop
+   - Edge context (supplier → consumer, interface variables)
+   - Per-component deviation magnitudes
+
+### Rationale
+
+Fail-fast behavior ensures:
+- **Correctness**: No degraded approximations that violate theoretical guarantees
+- **Debuggability**: Clear indication of where and why the model failed
+- **Soundness**: Contract operations remain sound under the assume-guarantee paradigm
+
+If a transformer fails, it indicates either:
+- The deviation scenario is not physically realizable
+- Component models have errors or incompatibilities
+- The system has reached an inconsistent state
+
+### Usage
+
+Run scenarios normally:
+```bash
+python main.py MotorUpgrade
+```
+
+If a solver fails, the program will:
+1. Print the failure details to console
+2. Write detailed reports to `output/`
+3. Terminate with a clear exception
+
+No partial results or fallback approximations are produced.

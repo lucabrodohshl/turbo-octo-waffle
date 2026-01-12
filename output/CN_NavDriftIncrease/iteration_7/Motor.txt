@@ -1,0 +1,93 @@
+================================================================================
+COMPONENT: Motor
+ITERATION: 7
+================================================================================
+
+Component Information:
+  Inputs:  ['thrust_command', 'voltage_available']
+  Outputs: ['motor_current', 'motor_response_time', 'motor_thrust']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      6 boxes
+  ΔA_str (assumption strengthening):   0 boxes
+  ΔG_rel (guarantee relaxation):       6 boxes
+  ΔG_str (guarantee strengthening):    0 boxes
+  Total magnitude:                     12.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    thrust_command                 ∈ [    0.0000,    30.0000]
+    voltage_available              ∈ [   10.5000,    12.6000]
+
+  Sample baseline guarantee:
+    motor_current                  ∈ [    0.0000,    15.0000]
+    motor_response_time            ∈ [    0.0500,     0.5000]
+    motor_thrust                   ∈ [    0.0000,    25.0000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  7 boxes
+  Guarantees:   7 boxes
+
+  All Assumption Boxes:
+    Box 1:
+      thrust_command               ∈ [    0.0000,    30.0000]
+      voltage_available            ∈ [   10.5000,    12.6000]
+
+    Box 2:
+      thrust_command               ∈ [    0.0000,    16.0000]
+
+    Box 3:
+      thrust_command               ∈ [    0.0000,    10.0000]
+
+    Box 4:
+      thrust_command               ∈ [    0.0000,    24.0000]
+
+    Box 5:
+      thrust_command               ∈ [    0.0000,    30.0000]
+
+    Box 6:
+      thrust_command               ∈ [    0.0000,   100.0000]
+
+    Box 7:
+      voltage_available            ∈ [    9.0000,    12.6000]
+
+  All Guarantee Boxes:
+    Box 1:
+      motor_current                ∈ [    0.0000,    15.0000]
+      motor_response_time          ∈ [    0.0500,     0.5000]
+      motor_thrust                 ∈ [    0.0000,    25.0000]
+
+    Box 2:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0100,     0.8000]
+      motor_thrust                 ∈ [    0.0000,    16.0000]
+
+    Box 3:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0100,     0.8000]
+      motor_thrust                 ∈ [    0.0000,    10.0000]
+
+    Box 4:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0100,     0.8000]
+      motor_thrust                 ∈ [    0.0000,    24.0000]
+
+    Box 5:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0100,     0.8000]
+      motor_thrust                 ∈ [    0.0000,    30.0000]
+
+    Box 6:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0100,     0.8000]
+      motor_thrust                 ∈ [    0.0000,   100.0000]
+
+    Box 7:
+      motor_current                ∈ [    0.0000,    50.0000]
+      motor_response_time          ∈ [    0.0200,     0.7500]
+      motor_thrust                 ∈ [    0.0000,   100.0000]
+
+================================================================================

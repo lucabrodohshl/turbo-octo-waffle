@@ -1,0 +1,41 @@
+================================================================================
+COMPONENT: NavigationEstimator
+ITERATION: 2
+================================================================================
+
+Component Information:
+  Inputs:  ['control_error', 'motor_current', 'power_mode']
+  Outputs: ['nav_drift', 'nav_position_error']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      0 boxes
+  ΔA_str (assumption strengthening):   5 boxes
+  ΔG_rel (guarantee relaxation):       0 boxes
+  ΔG_str (guarantee strengthening):    5 boxes
+  Total magnitude:                     10.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    control_error                  ∈ [    0.0000,    15.0000]
+    motor_current                  ∈ [    0.0000,    15.0000]
+    power_mode                     ∈ [    0.0000,     1.0000]
+
+  Sample baseline guarantee:
+    nav_drift                      ∈ [    0.0000,     0.5000]
+    nav_position_error             ∈ [    0.5000,     5.0000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  0 boxes
+  Guarantees:   1 boxes
+
+  (No assumption boxes)
+
+  All Guarantee Boxes:
+    Box 1:
+      nav_drift                    ∈ [    0.0000,     0.5000]
+      nav_position_error           ∈ [    0.5000,     5.0000]
+
+================================================================================

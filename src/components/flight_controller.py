@@ -30,6 +30,7 @@ class FlightController(BaseComponent):
     K_NAV_TO_THRUST = 2.0  # Nav error to thrust gain
     K_RESPONSE_ERROR = 5.0  # Response time to control error gain
     K_SATURATION_ERROR = 0.2  # Saturation slack to control error gain
+    K_THRUST_TRACKING_ERROR = 0.3  # Thrust tracking error gain
     
     # Mode-dependent thrust authority limits (percentage of max)
     MODE_AUTHORITY = {0: 100.0, 1: 85.0, 2: 65.0, 3: 45.0}
@@ -86,17 +87,41 @@ class FlightController(BaseComponent):
             saturation_slack >= 0
         )
         
+        # === Thrust tracking error ===
+        # Account for difference between commanded and actual motor thrust
+        thrust_tracking_error = pulp.LpVariable("fc_thrust_tracking_error", lowBound=0)
+        constraints.append(
+            thrust_tracking_error >= output_vars['thrust_command'] - input_vars['motor_thrust']
+        )
+        constraints.append(
+            thrust_tracking_error >= input_vars['motor_thrust'] - output_vars['thrust_command']
+        )
+        
+        # Bounds on motor_thrust (physical limits of the motor system)
+        constraints.append(input_vars['motor_thrust'] >= 0)
+        constraints.append(input_vars['motor_thrust'] <= 100)
+        
+        # Bounds on motor_response_time (physical motor dynamics)
+        constraints.append(input_vars['motor_response_time'] >= 0)
+        constraints.append(input_vars['motor_response_time'] <= 2.0)
+        
+        # Bounds on nav_position_error (navigation system range)
+        constraints.append(input_vars['nav_position_error'] >= 0)
+        constraints.append(input_vars['nav_position_error'] <= 50)
+        
         # === Control error composition ===
-        # control_error = nav_error + K_response * response_time + K_sat * slack
+        # control_error = nav_error + K_response * response_time + K_sat * slack + K_tracking * tracking_error
         constraints.append(
             output_vars['control_error'] >= input_vars['nav_position_error'] +
             self.K_RESPONSE_ERROR * input_vars['motor_response_time'] +
-            self.K_SATURATION_ERROR * saturation_slack
+            self.K_SATURATION_ERROR * saturation_slack +
+            self.K_THRUST_TRACKING_ERROR * thrust_tracking_error
         )
         constraints.append(
             output_vars['control_error'] <= input_vars['nav_position_error'] +
             self.K_RESPONSE_ERROR * input_vars['motor_response_time'] +
-            self.K_SATURATION_ERROR * saturation_slack + 0.5
+            self.K_SATURATION_ERROR * saturation_slack +
+            self.K_THRUST_TRACKING_ERROR * thrust_tracking_error + 0.5
         )
         
         # Physical bounds
@@ -114,7 +139,7 @@ class FlightController(BaseComponent):
             Box({
                 'motor_thrust': (0.0, 25.0),
                 'motor_response_time': (0.05, 0.5),
-                'nav_position_error': (0.5, 6.0),  # Must fit NavigationEstimator baseline [0.5, 6]
+                'nav_position_error': (0.5, 5.0),  # Updated to match NavigationEstimator baseline
                 'power_mode': (0.0, 1.0)
             })
         ])

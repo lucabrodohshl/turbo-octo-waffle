@@ -27,10 +27,10 @@ class NavigationEstimator(BaseComponent):
     
     # Physical parameters
     NUM_TIERS = 10
-    BASE_POS_ERR = (0.5, 3.0)  # Tier 0 position error bounds
+    BASE_POS_ERR = (0.5, 5.0)   # Tier 0 position error bounds
     BASE_DRIFT = (0.0, 0.5)     # Tier 0 drift bounds
-    POS_ERR_INCREMENT = 0.8     # Per-tier position error increase
-    DRIFT_INCREMENT = 0.15      # Per-tier drift increase
+    POS_ERR_INCREMENT = 5.0     # Per-tier position error increase
+    DRIFT_INCREMENT = 1.05      # Per-tier drift increase
     
     # Tier activation thresholds
     # Tier k: motor_current ≥ 4 + 2*k OR power_mode ≥ k/3
@@ -125,12 +125,15 @@ class NavigationEstimator(BaseComponent):
                 output_vars['nav_drift'] <= drift_upper + M * (1 - tier_vars[k])
             )
         
-        # Control error also influences position error (direct coupling)
-        constraints.append(
-            output_vars['nav_position_error'] >= 0.5 * input_vars['control_error']
-        )
+        # Physical bounds on inputs
+        constraints.append(input_vars['control_error'] >= 0)
+        constraints.append(input_vars['control_error'] <= 100)
+        constraints.append(input_vars['motor_current'] >= 0)
+        constraints.append(input_vars['motor_current'] <= 50)
+        constraints.append(input_vars['power_mode'] >= 0)
+        constraints.append(input_vars['power_mode'] <= 3)
         
-        # Global physical bounds
+        # Physical bounds on outputs
         constraints.append(output_vars['nav_position_error'] >= 0)
         constraints.append(output_vars['nav_position_error'] <= 50)
         constraints.append(output_vars['nav_drift'] >= 0)
@@ -151,8 +154,8 @@ class NavigationEstimator(BaseComponent):
         
         guarantees = BehaviorSet([
             Box({
-                'nav_position_error': (0.5, 6.0),
-                'nav_drift': (0.0, 1.0)
+                'nav_position_error': (0.5, 5.0),  # Updated to match tier 0
+                'nav_drift': (0.0, 0.5)
             })
         ])
         

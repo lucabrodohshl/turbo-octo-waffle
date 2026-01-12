@@ -1,0 +1,75 @@
+================================================================================
+COMPONENT: FlightController
+ITERATION: 1
+================================================================================
+
+Component Information:
+  Inputs:  ['motor_response_time', 'motor_thrust', 'nav_position_error', 'power_mode']
+  Outputs: ['control_error', 'thrust_command']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      5 boxes
+  ΔA_str (assumption strengthening):   0 boxes
+  ΔG_rel (guarantee relaxation):       5 boxes
+  ΔG_str (guarantee strengthening):    0 boxes
+  Total magnitude:                     10.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    motor_response_time            ∈ [    0.0500,     0.5000]
+    motor_thrust                   ∈ [    0.0000,    25.0000]
+    nav_position_error             ∈ [    0.5000,     5.0000]
+    power_mode                     ∈ [    0.0000,     1.0000]
+
+  Sample baseline guarantee:
+    control_error                  ∈ [    0.0000,    15.0000]
+    thrust_command                 ∈ [    0.0000,    30.0000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  5 boxes
+  Guarantees:   5 boxes
+
+  All Assumption Boxes:
+    Box 1:
+      motor_response_time          ∈ [    0.0500,     0.5000]
+      motor_thrust                 ∈ [    0.0000,    25.0000]
+      nav_position_error           ∈ [    0.5000,     5.0000]
+      power_mode                   ∈ [    0.0000,     1.0000]
+
+    Box 2:
+      nav_position_error           ∈ [    5.0000,     8.0000]
+
+    Box 3:
+      nav_position_error           ∈ [    0.5000,     5.0000]
+
+    Box 4:
+      nav_position_error           ∈ [    5.0000,    12.0000]
+
+    Box 5:
+      nav_position_error           ∈ [    8.0000,    15.0000]
+
+  All Guarantee Boxes:
+    Box 1:
+      control_error                ∈ [    0.0000,    15.0000]
+      thrust_command               ∈ [    0.0000,    30.0000]
+
+    Box 2:
+      control_error                ∈ [    5.0000,   100.0000]
+      thrust_command               ∈ [    0.0000,    16.0000]
+
+    Box 3:
+      control_error                ∈ [    0.5000,   100.0000]
+      thrust_command               ∈ [    0.0000,    10.0000]
+
+    Box 4:
+      control_error                ∈ [    5.0000,   100.0000]
+      thrust_command               ∈ [    0.0000,    24.0000]
+
+    Box 5:
+      control_error                ∈ [    8.0000,   100.0000]
+      thrust_command               ∈ [    0.0000,    30.0000]
+
+================================================================================

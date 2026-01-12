@@ -1,0 +1,38 @@
+{
+  "failure": {
+    "component_name": "NavigationEstimator",
+    "transformer_type": "pre",
+    "variable_being_optimized": "motor_current",
+    "optimization_direction": "minimize",
+    "solver_status": 0,
+    "solver_status_name": "Not Solved",
+    "solver_name": "GUROBI_CMD",
+    "iteration_number": 2,
+    "output_region": {
+      "nav_position_error": [
+        12.5,
+        50.0
+      ]
+    },
+    "edge_context": {
+      "supplier": "NavigationEstimator",
+      "consumer": "FlightController",
+      "interface_variables": [
+        "nav_position_error"
+      ]
+    }
+  },
+  "fixpoint_state": {
+    "iteration": 2,
+    "iterations_completed": 1,
+    "total_magnitude": 42,
+    "per_component_magnitude": {
+      "FlightController": 10,
+      "Motor": 22,
+      "PowerManager": 10,
+      "Battery": 0,
+      "NavigationEstimator": 0
+    },
+    "timestamp": "2026-01-12 18:46:22"
+  }
+}

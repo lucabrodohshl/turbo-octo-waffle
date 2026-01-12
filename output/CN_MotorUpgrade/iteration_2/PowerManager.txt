@@ -1,0 +1,47 @@
+================================================================================
+COMPONENT: PowerManager
+ITERATION: 2
+================================================================================
+
+Component Information:
+  Inputs:  ['battery_current', 'battery_voltage', 'motor_current']
+  Outputs: ['power_mode', 'voltage_available', 'voltage_margin']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      0 boxes
+  ΔA_str (assumption strengthening):   3 boxes
+  ΔG_rel (guarantee relaxation):       0 boxes
+  ΔG_str (guarantee strengthening):    3 boxes
+  Total magnitude:                     6.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    battery_current                ∈ [    0.0000,    30.0000]
+    battery_voltage                ∈ [   11.5000,    12.6000]
+    motor_current                  ∈ [    0.0000,    15.0000]
+
+  Sample baseline guarantee:
+    power_mode                     ∈ [    0.0000,     1.0000]
+    voltage_available              ∈ [   10.5000,    12.6000]
+    voltage_margin                 ∈ [    0.3000,     2.4000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  All Assumption Boxes:
+    Box 1:
+      battery_current              ∈ [    0.0000,     2.0000]
+      battery_voltage              ∈ [   11.5000,    12.6000]
+      motor_current                ∈ [    0.0000,    15.0000]
+
+  All Guarantee Boxes:
+    Box 1:
+      power_mode                   ∈ [    0.0000,     1.0000]
+      voltage_available            ∈ [   10.5000,    12.6000]
+      voltage_margin               ∈ [    0.3000,     2.4000]
+
+================================================================================

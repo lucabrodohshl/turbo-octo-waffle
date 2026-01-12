@@ -101,7 +101,15 @@ class PowerManager(BaseComponent):
             output_vars['voltage_margin'] <= 0.1 + M * (1 - mode_vars[3])
         )
         
-        # Physical bounds
+        # Physical bounds on inputs
+        constraints.append(input_vars['motor_current'] >= 0)
+        constraints.append(input_vars['motor_current'] <= 30.0)
+        constraints.append(input_vars['battery_voltage'] >= 8.0)
+        constraints.append(input_vars['battery_voltage'] <= 13.0)
+        constraints.append(input_vars['battery_current'] >= 0)
+        constraints.append(input_vars['battery_current'] <= 50.0)
+        
+        # Physical bounds on outputs
         constraints.append(output_vars['voltage_available'] >= 9.0)
         constraints.append(output_vars['voltage_available'] <= 12.6)
         constraints.append(output_vars['voltage_margin'] >= -1.2)

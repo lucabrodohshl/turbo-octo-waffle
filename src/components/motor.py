@@ -116,7 +116,13 @@ class Motor(BaseComponent):
             self.K_CURRENT_RESPONSE * output_vars['motor_current'] + 0.05
         )
         
-        # Physical bounds
+        # Physical bounds on inputs
+        constraints.append(input_vars['thrust_command'] >= 0)
+        constraints.append(input_vars['thrust_command'] <= 100)
+        constraints.append(input_vars['voltage_available'] >= 8.0)
+        constraints.append(input_vars['voltage_available'] <= 13.0)
+        
+        # Physical bounds on outputs
         constraints.append(output_vars['motor_thrust'] >= 0)
         constraints.append(output_vars['motor_thrust'] <= 100)
         constraints.append(output_vars['motor_current'] >= 0)

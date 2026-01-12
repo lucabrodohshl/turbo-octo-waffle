@@ -1,0 +1,246 @@
+================================================================================
+MILP TRANSFORMER FAILURE
+================================================================================
+
+Component:    NavigationEstimator
+Transformer:  pre()
+Variable:     motor_current
+Direction:    minimize
+Solver:       GUROBI_CMD
+Status:       Not Solved (code: 0)
+Iteration:    2
+
+Output Region:
+  nav_position_error   ∈ [   12.500000,    50.000000]
+
+Edge Context:
+  Supplier:   NavigationEstimator
+  Consumer:   FlightController
+  Interface:  nav_position_error
+
+================================================================================
+
+This failure indicates that the MILP model is infeasible, unbounded,
+or could not be solved to proven optimality within the time limit.
+
+Possible causes:
+  • Model infeasibility (conflicting constraints)
+  • Unbounded objective (missing bounds on variables)
+  • Solver timeout (problem too complex)
+  • Numerical issues (ill-conditioned constraints)
+
+The system terminates immediately to preserve correctness.
+No approximate or fallback bounds are used.
+================================================================================
+
+================================================================================
+MILP PROBLEM DETAILS
+================================================================================
+
+Problem Name: NavigationEstimator_pre
+Sense: Minimize
+Number of Variables: 46
+Number of Constraints: 134
+
+Variables:
+  in_control_error                         ∈ [        -∞, +∞        ] (Continuous)
+  in_motor_current                         ∈ [        -∞, +∞        ] (Continuous)
+  in_power_mode                            ∈ [        -∞, +∞        ] (Continuous)
+  nav_curr_tier_0                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_1                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_2                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_3                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_4                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_5                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_6                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_7                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_8                          ∈ [         0, 1         ] (Integer)
+  nav_curr_tier_9                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_0                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_1                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_2                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_3                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_4                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_5                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_6                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_7                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_8                          ∈ [         0, 1         ] (Integer)
+  nav_mode_tier_9                          ∈ [         0, 1         ] (Integer)
+  nav_or_0                                 ∈ [         0, 1         ] (Integer)
+  nav_or_1                                 ∈ [         0, 1         ] (Integer)
+  nav_or_2                                 ∈ [         0, 1         ] (Integer)
+  nav_or_3                                 ∈ [         0, 1         ] (Integer)
+  nav_or_4                                 ∈ [         0, 1         ] (Integer)
+  nav_or_5                                 ∈ [         0, 1         ] (Integer)
+  nav_or_6                                 ∈ [         0, 1         ] (Integer)
+  nav_or_7                                 ∈ [         0, 1         ] (Integer)
+  nav_or_8                                 ∈ [         0, 1         ] (Integer)
+  nav_or_9                                 ∈ [         0, 1         ] (Integer)
+  nav_tier_0                               ∈ [         0, 1         ] (Integer)
+  nav_tier_1                               ∈ [         0, 1         ] (Integer)
+  nav_tier_2                               ∈ [         0, 1         ] (Integer)
+  nav_tier_3                               ∈ [         0, 1         ] (Integer)
+  nav_tier_4                               ∈ [         0, 1         ] (Integer)
+  nav_tier_5                               ∈ [         0, 1         ] (Integer)
+  nav_tier_6                               ∈ [         0, 1         ] (Integer)
+  nav_tier_7                               ∈ [         0, 1         ] (Integer)
+  nav_tier_8                               ∈ [         0, 1         ] (Integer)
+  nav_tier_9                               ∈ [         0, 1         ] (Integer)
+  nav_tier_level                           ∈ [         0, 9         ] (Integer)
+  out_nav_drift                            ∈ [        -∞, +∞        ] (Continuous)
+  out_nav_position_error                   ∈ [        -∞, +∞        ] (Continuous)
+
+Objective:
+  in_motor_current
+
+Constraints:
+  constraint_0                  : nav_tier_0 + nav_tier_1 + nav_tier_2 + nav_tier_3 + nav_tier_4 + nav_tier_5 + nav_tier_6 + nav_tier_7 + nav_tier_8 + nav_tier_9 = 1.0
+  constraint_1                  : -nav_tier_1 - 2*nav_tier_2 - 3*nav_tier_3 - 4*nav_tier_4 - 5*nav_tier_5 - 6*nav_tier_6 - 7*nav_tier_7 - 8*nav_tier_8 - 9*nav_tier_9 + nav_tier_level =...
+  constraint_10                 : in_motor_current - 1000.0*nav_curr_tier_1 >= -994.0
+  constraint_100                : -1000.0*nav_tier_4 + out_nav_drift >= -999.4
+  constraint_101                : 1000.0*nav_tier_4 + out_nav_drift <= 1001.1
+  constraint_102                : -1000.0*nav_tier_5 + out_nav_position_error >= -995.5
+  constraint_103                : 1000.0*nav_tier_5 + out_nav_position_error <= 1007.0
+  constraint_104                : -1000.0*nav_tier_5 + out_nav_drift >= -999.25
+  constraint_105                : 1000.0*nav_tier_5 + out_nav_drift <= 1001.25
+  constraint_106                : -1000.0*nav_tier_6 + out_nav_position_error >= -994.7
+  constraint_107                : 1000.0*nav_tier_6 + out_nav_position_error <= 1007.8
+  constraint_108                : -1000.0*nav_tier_6 + out_nav_drift >= -999.1
+  constraint_109                : 1000.0*nav_tier_6 + out_nav_drift <= 1001.4
+  constraint_11                 : in_motor_current - 1000.0*nav_curr_tier_1 <= 6.0
+  constraint_110                : -1000.0*nav_tier_7 + out_nav_position_error >= -993.9
+  constraint_111                : 1000.0*nav_tier_7 + out_nav_position_error <= 1008.6
+  constraint_112                : -1000.0*nav_tier_7 + out_nav_drift >= -998.95
+  constraint_113                : 1000.0*nav_tier_7 + out_nav_drift <= 1001.55
+  constraint_114                : -1000.0*nav_tier_8 + out_nav_position_error >= -993.1
+  constraint_115                : 1000.0*nav_tier_8 + out_nav_position_error <= 1009.4
+  constraint_116                : -1000.0*nav_tier_8 + out_nav_drift >= -998.8
+  constraint_117                : 1000.0*nav_tier_8 + out_nav_drift <= 1001.7
+  constraint_118                : -1000.0*nav_tier_9 + out_nav_position_error >= -992.3
+  constraint_119                : 1000.0*nav_tier_9 + out_nav_position_error <= 1010.2
+  constraint_12                 : in_power_mode - 1000.0*nav_mode_tier_1 >= -999.6666666666666
+  constraint_120                : -1000.0*nav_tier_9 + out_nav_drift >= -998.65
+  constraint_121                : 1000.0*nav_tier_9 + out_nav_drift <= 1001.85
+  constraint_122                : in_control_error >= 0
+  constraint_123                : in_control_error <= 100
+  constraint_124                : in_motor_current >= 0
+  constraint_125                : in_motor_current <= 50
+  constraint_126                : in_power_mode >= 0
+  constraint_127                : in_power_mode <= 3
+  constraint_128                : out_nav_position_error >= 0
+  constraint_129                : out_nav_position_error <= 50
+  constraint_13                 : in_power_mode - 1000.0*nav_mode_tier_1 <= 0.3333333333333333
+  constraint_130                : out_nav_drift >= 0
+  constraint_131                : out_nav_drift <= 10
+  constraint_14                 : -nav_curr_tier_1 + nav_or_1 >= 0
+  constraint_15                 : -nav_mode_tier_1 + nav_or_1 >= 0
+  constraint_16                 : -nav_curr_tier_1 - nav_mode_tier_1 + nav_or_1 <= 0
+  constraint_17                 : -1000.0*nav_or_1 + nav_tier_level >= -999.0
+  constraint_18                 : in_motor_current - 1000.0*nav_curr_tier_2 >= -992.0
+  constraint_19                 : in_motor_current - 1000.0*nav_curr_tier_2 <= 8.0
+  constraint_2                  : in_motor_current - 1000.0*nav_curr_tier_0 >= -996.0
+  constraint_20                 : in_power_mode - 1000.0*nav_mode_tier_2 >= -999.3333333333334
+  constraint_21                 : in_power_mode - 1000.0*nav_mode_tier_2 <= 0.6666666666666666
+  constraint_22                 : -nav_curr_tier_2 + nav_or_2 >= 0
+  constraint_23                 : -nav_mode_tier_2 + nav_or_2 >= 0
+  constraint_24                 : -nav_curr_tier_2 - nav_mode_tier_2 + nav_or_2 <= 0
+  constraint_25                 : -1000.0*nav_or_2 + nav_tier_level >= -998.0
+  constraint_26                 : in_motor_current - 1000.0*nav_curr_tier_3 >= -990.0
+  constraint_27                 : in_motor_current - 1000.0*nav_curr_tier_3 <= 10.0
+  constraint_28                 : in_power_mode - 1000.0*nav_mode_tier_3 >= -999.0
+  constraint_29                 : in_power_mode - 1000.0*nav_mode_tier_3 <= 1.0
+  constraint_3                  : in_motor_current - 1000.0*nav_curr_tier_0 <= 4.0
+  constraint_30                 : -nav_curr_tier_3 + nav_or_3 >= 0
+  constraint_31                 : -nav_mode_tier_3 + nav_or_3 >= 0
+  constraint_32                 : -nav_curr_tier_3 - nav_mode_tier_3 + nav_or_3 <= 0
+  constraint_33                 : -1000.0*nav_or_3 + nav_tier_level >= -997.0
+  constraint_34                 : in_motor_current - 1000.0*nav_curr_tier_4 >= -988.0
+  constraint_35                 : in_motor_current - 1000.0*nav_curr_tier_4 <= 12.0
+  constraint_36                 : in_power_mode - 1000.0*nav_mode_tier_4 >= -998.6666666666666
+  constraint_37                 : in_power_mode - 1000.0*nav_mode_tier_4 <= 1.3333333333333333
+  constraint_38                 : -nav_curr_tier_4 + nav_or_4 >= 0
+  constraint_39                 : -nav_mode_tier_4 + nav_or_4 >= 0
+  constraint_4                  : in_power_mode - 1000.0*nav_mode_tier_0 >= -1000.0
+  constraint_40                 : -nav_curr_tier_4 - nav_mode_tier_4 + nav_or_4 <= 0
+  constraint_41                 : -1000.0*nav_or_4 + nav_tier_level >= -996.0
+  constraint_42                 : in_motor_current - 1000.0*nav_curr_tier_5 >= -986.0
+  constraint_43                 : in_motor_current - 1000.0*nav_curr_tier_5 <= 14.0
+  constraint_44                 : in_power_mode - 1000.0*nav_mode_tier_5 >= -998.3333333333334
+  constraint_45                 : in_power_mode - 1000.0*nav_mode_tier_5 <= 1.6666666666666667
+  constraint_46                 : -nav_curr_tier_5 + nav_or_5 >= 0
+  constraint_47                 : -nav_mode_tier_5 + nav_or_5 >= 0
+  constraint_48                 : -nav_curr_tier_5 - nav_mode_tier_5 + nav_or_5 <= 0
+  constraint_49                 : -1000.0*nav_or_5 + nav_tier_level >= -995.0
+  constraint_5                  : in_power_mode - 1000.0*nav_mode_tier_0 <= -0.0
+  constraint_50                 : in_motor_current - 1000.0*nav_curr_tier_6 >= -984.0
+  constraint_51                 : in_motor_current - 1000.0*nav_curr_tier_6 <= 16.0
+  constraint_52                 : in_power_mode - 1000.0*nav_mode_tier_6 >= -998.0
+  constraint_53                 : in_power_mode - 1000.0*nav_mode_tier_6 <= 2.0
+  constraint_54                 : -nav_curr_tier_6 + nav_or_6 >= 0
+  constraint_55                 : -nav_mode_tier_6 + nav_or_6 >= 0
+  constraint_56                 : -nav_curr_tier_6 - nav_mode_tier_6 + nav_or_6 <= 0
+  constraint_57                 : -1000.0*nav_or_6 + nav_tier_level >= -994.0
+  constraint_58                 : in_motor_current - 1000.0*nav_curr_tier_7 >= -982.0
+  constraint_59                 : in_motor_current - 1000.0*nav_curr_tier_7 <= 18.0
+  constraint_6                  : -nav_curr_tier_0 + nav_or_0 >= 0
+  constraint_60                 : in_power_mode - 1000.0*nav_mode_tier_7 >= -997.6666666666666
+  constraint_61                 : in_power_mode - 1000.0*nav_mode_tier_7 <= 2.3333333333333335
+  constraint_62                 : -nav_curr_tier_7 + nav_or_7 >= 0
+  constraint_63                 : -nav_mode_tier_7 + nav_or_7 >= 0
+  constraint_64                 : -nav_curr_tier_7 - nav_mode_tier_7 + nav_or_7 <= 0
+  constraint_65                 : -1000.0*nav_or_7 + nav_tier_level >= -993.0
+  constraint_66                 : in_motor_current - 1000.0*nav_curr_tier_8 >= -980.0
+  constraint_67                 : in_motor_current - 1000.0*nav_curr_tier_8 <= 20.0
+  constraint_68                 : in_power_mode - 1000.0*nav_mode_tier_8 >= -997.3333333333334
+  constraint_69                 : in_power_mode - 1000.0*nav_mode_tier_8 <= 2.6666666666666665
+  constraint_7                  : -nav_mode_tier_0 + nav_or_0 >= 0
+  constraint_70                 : -nav_curr_tier_8 + nav_or_8 >= 0
+  constraint_71                 : -nav_mode_tier_8 + nav_or_8 >= 0
+  constraint_72                 : -nav_curr_tier_8 - nav_mode_tier_8 + nav_or_8 <= 0
+  constraint_73                 : -1000.0*nav_or_8 + nav_tier_level >= -992.0
+  constraint_74                 : in_motor_current - 1000.0*nav_curr_tier_9 >= -978.0
+  constraint_75                 : in_motor_current - 1000.0*nav_curr_tier_9 <= 22.0
+  constraint_76                 : in_power_mode - 1000.0*nav_mode_tier_9 >= -997.0
+  constraint_77                 : in_power_mode - 1000.0*nav_mode_tier_9 <= 3.0
+  constraint_78                 : -nav_curr_tier_9 + nav_or_9 >= 0
+  constraint_79                 : -nav_mode_tier_9 + nav_or_9 >= 0
+  constraint_8                  : -nav_curr_tier_0 - nav_mode_tier_0 + nav_or_0 <= 0
+  constraint_80                 : -nav_curr_tier_9 - nav_mode_tier_9 + nav_or_9 <= 0
+  constraint_81                 : -1000.0*nav_or_9 + nav_tier_level >= -991.0
+  constraint_82                 : -1000.0*nav_tier_0 + out_nav_position_error >= -999.5
+  constraint_83                 : 1000.0*nav_tier_0 + out_nav_position_error <= 1003.0
+  constraint_84                 : -1000.0*nav_tier_0 + out_nav_drift >= -1000.0
+  constraint_85                 : 1000.0*nav_tier_0 + out_nav_drift <= 1000.5
+  constraint_86                 : -1000.0*nav_tier_1 + out_nav_position_error >= -998.7
+  constraint_87                 : 1000.0*nav_tier_1 + out_nav_position_error <= 1003.8
+  constraint_88                 : -1000.0*nav_tier_1 + out_nav_drift >= -999.85
+  constraint_89                 : 1000.0*nav_tier_1 + out_nav_drift <= 1000.65
+  constraint_9                  : -1000.0*nav_or_0 + nav_tier_level >= -1000.0
+  constraint_90                 : -1000.0*nav_tier_2 + out_nav_position_error >= -997.9
+  constraint_91                 : 1000.0*nav_tier_2 + out_nav_position_error <= 1004.6
+  constraint_92                 : -1000.0*nav_tier_2 + out_nav_drift >= -999.7
+  constraint_93                 : 1000.0*nav_tier_2 + out_nav_drift <= 1000.8
+  constraint_94                 : -1000.0*nav_tier_3 + out_nav_position_error >= -997.1
+  constraint_95                 : 1000.0*nav_tier_3 + out_nav_position_error <= 1005.4
+  constraint_96                 : -1000.0*nav_tier_3 + out_nav_drift >= -999.55
+  constraint_97                 : 1000.0*nav_tier_3 + out_nav_drift <= 1000.95
+  constraint_98                 : -1000.0*nav_tier_4 + out_nav_position_error >= -996.3
+  constraint_99                 : 1000.0*nav_tier_4 + out_nav_position_error <= 1006.2
+  output_nav_position_error_lb  : out_nav_position_error >= 12.5
+  output_nav_position_error_ub  : out_nav_position_error <= 50.0
+
+================================================================================
+
+================================================================================
+FIXPOINT ITERATION STATE
+================================================================================
+
+Iteration when failure occurred: 2
+Total iterations completed: 1
+Current deviation magnitude: 42.00
+
+Per-component deviation magnitudes:
+  FlightController                   10.00
+  Motor                              22.00
+  PowerManager                       10.00
+

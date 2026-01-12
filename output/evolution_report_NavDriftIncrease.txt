@@ -2,7 +2,7 @@
 CONTRACT EVOLUTION REPORT
 ================================================================================
 Scenario: NavDriftIncrease
-Generated: 2026-01-08 00:45:52
+Generated: 2026-01-12 18:54:39
 
 DESCRIPTION
 --------------------------------------------------------------------------------
@@ -48,127 +48,119 @@ BASELINE WELL-FORMEDNESS CHECK
 TARGET EVOLUTION
 --------------------------------------------------------------------------------
 Component: NavigationEstimator
-Initial deviation: Deviation(ΔG_rel:7)
+Initial deviation: Deviation(ΔG_rel:5)
 Deviation:
   ΔA_rel (assumption relaxation): 0 boxes
   ΔA_str (assumption strengthening): 0 boxes
-  ΔG_rel (guarantee relaxation): 7 boxes
-    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[6.00, 8.00])
-    [2] ZonotopeRegion(nav_drift∈[1.00, 1.50], nav_position_error∈[0.50, 6.00])
+  ΔG_rel (guarantee relaxation): 5 boxes
+    [1] ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[5.00, 8.00])
+    [2] ZonotopeRegion(nav_drift∈[0.50, 1.50], nav_position_error∈[0.50, 5.00])
   ΔG_str (guarantee strengthening): 0 boxes
 
 ITERATION SUMMARY
 --------------------------------------------------------------------------------
-Total iterations: 12
+Total iterations: 7
 Converged: True
-Total time: 90.455 seconds
+Total time: 12.569 seconds
 
 Per-Iteration Metrics:
 Iter   Total Mag    ΔA_rel     ΔA_str     ΔG_rel     ΔG_str     Time(ms)  
 ----------------------------------------------------------------------------
-1      21.0         7          0          14         0          303.6     
-2      63.0         28         0          35         0          1184.5    
-3      91.0         49         0          42         0          3428.9    
-4      151.0        73         0          78         0          5617.9    
-5      166.0        85         0          81         0          10741.7   
-6      164.0        87         0          77         0          10194.7   
-7      168.0        91         0          77         0          9909.9    
-8      171.0        93         0          78         0          9695.8    
-9      174.0        95         0          79         0          9627.9    
-10     176.0        96         0          80         0          9822.1    
-11     176.0        96         0          80         0          9987.9    
-12     176.0        96         0          80         0          9940.2    
+1      15.0         5          0          10         0          208.1     
+2      29.0         14         0          15         0          788.6     
+3      43.0         22         0          21         0          1527.0    
+4      53.0         28         0          25         0          2718.2    
+5      50.0         28         0          22         0          2521.4    
+6      51.0         29         0          22         0          2395.6    
+7      51.0         29         0          22         0          2409.6    
 
 FINAL DEVIATIONS
 --------------------------------------------------------------------------------
 
 Battery:
-  Total magnitude: 32.0
-  ΔA_rel: 16 box(es)
+  Total magnitude: 2.0
+  ΔA_rel: 1 box(es)
   ΔA_str: 0 box(es)
-  ΔG_rel: 16 box(es)
+  ΔG_rel: 1 box(es)
   ΔG_str: 0 box(es)
   Sample ΔA_rel boxes:
     ZonotopeRegion(power_mode∈[0.00, 3.00])
-    ZonotopeRegion(power_mode∈[0.00, 3.00])
   Sample ΔG_rel boxes:
-    ZonotopeRegion(battery_current∈[0.00, 40.00], battery_soc∈[20.00, 100.00], battery_voltage∈[9.50, 12.60])
     ZonotopeRegion(battery_current∈[0.00, 40.00], battery_soc∈[20.00, 100.00], battery_voltage∈[9.50, 12.60])
 
 FlightController:
-  Total magnitude: 36.0
-  ΔA_rel: 20 box(es)
+  Total magnitude: 20.0
+  ΔA_rel: 12 box(es)
   ΔA_str: 0 box(es)
-  ΔG_rel: 16 box(es)
+  ΔG_rel: 8 box(es)
   ΔG_str: 0 box(es)
   Sample ΔA_rel boxes:
-    ZonotopeRegion(nav_position_error∈[0.50, 15.00])
-    ZonotopeRegion(motor_response_time∈[0.01, 1.85], motor_thrust∈[0.00, 30.00])
+    ZonotopeRegion(nav_position_error∈[5.00, 8.00])
+    ZonotopeRegion(nav_position_error∈[0.50, 5.00])
   Sample ΔG_rel boxes:
-    ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-    ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 30.00])
+    ZonotopeRegion(control_error∈[5.00, 100.00], thrust_command∈[0.00, 16.00])
+    ZonotopeRegion(control_error∈[0.50, 100.00], thrust_command∈[0.00, 10.00])
 
 Motor:
-  Total magnitude: 36.0
-  ΔA_rel: 20 box(es)
+  Total magnitude: 12.0
+  ΔA_rel: 6 box(es)
   ΔA_str: 0 box(es)
-  ΔG_rel: 16 box(es)
+  ΔG_rel: 6 box(es)
   ΔG_str: 0 box(es)
   Sample ΔA_rel boxes:
-    ZonotopeRegion(thrust_command∈[0.00, 100.00])
-    ZonotopeRegion(voltage_available∈[9.00, 12.60])
+    ZonotopeRegion(thrust_command∈[0.00, 16.00])
+    ZonotopeRegion(thrust_command∈[0.00, 10.00])
   Sample ΔG_rel boxes:
-    ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 1.85], motor_thrust∈[0.00, 100.00])
-    ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 1.85], motor_thrust∈[0.00, 100.00])
+    ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 0.80], motor_thrust∈[0.00, 16.00])
+    ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 0.80], motor_thrust∈[0.00, 10.00])
 
 NavigationEstimator:
-  Total magnitude: 36.0
-  ΔA_rel: 20 box(es)
+  Total magnitude: 14.0
+  ΔA_rel: 8 box(es)
   ΔA_str: 0 box(es)
-  ΔG_rel: 16 box(es)
+  ΔG_rel: 6 box(es)
   ΔG_str: 0 box(es)
   Sample ΔA_rel boxes:
-    ZonotopeRegion(control_error∈[0.00, 100.00])
-    ZonotopeRegion(motor_current∈[0.00, 50.00])
+    ZonotopeRegion(control_error∈[5.00, 100.00])
+    ZonotopeRegion(control_error∈[0.50, 100.00])
   Sample ΔG_rel boxes:
-    ZonotopeRegion(nav_drift∈[0.00, 3.50], nav_position_error∈[0.50, 15.00])
-    ZonotopeRegion(nav_drift∈[0.00, 1.85], nav_position_error∈[0.50, 10.20])
+    ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[5.00, 8.00])
+    ZonotopeRegion(nav_drift∈[0.50, 1.50], nav_position_error∈[0.50, 5.00])
 
 PowerManager:
-  Total magnitude: 36.0
-  ΔA_rel: 20 box(es)
+  Total magnitude: 3.0
+  ΔA_rel: 2 box(es)
   ΔA_str: 0 box(es)
-  ΔG_rel: 16 box(es)
+  ΔG_rel: 1 box(es)
   ΔG_str: 0 box(es)
   Sample ΔA_rel boxes:
     ZonotopeRegion(motor_current∈[0.00, 50.00])
     ZonotopeRegion(battery_current∈[0.00, 40.00], battery_voltage∈[9.50, 12.60])
   Sample ΔG_rel boxes:
     ZonotopeRegion(power_mode∈[0.00, 3.00], voltage_available∈[9.00, 12.60], voltage_margin∈[-1.20, 2.40])
-    ZonotopeRegion(power_mode∈[0.00, 3.00], voltage_available∈[9.00, 12.60], voltage_margin∈[-1.20, 2.40])
 
 FINAL CONTRACTS SUMMARY
 --------------------------------------------------------------------------------
 
 Battery:
-  Assumptions: 17 box(es)
-  Guarantees: 17 box(es)
+  Assumptions: 2 box(es)
+  Guarantees: 2 box(es)
 
 FlightController:
-  Assumptions: 20 box(es)
-  Guarantees: 17 box(es)
+  Assumptions: 13 box(es)
+  Guarantees: 9 box(es)
 
 Motor:
-  Assumptions: 18 box(es)
-  Guarantees: 17 box(es)
+  Assumptions: 7 box(es)
+  Guarantees: 7 box(es)
 
 NavigationEstimator:
-  Assumptions: 20 box(es)
-  Guarantees: 17 box(es)
+  Assumptions: 9 box(es)
+  Guarantees: 7 box(es)
 
 PowerManager:
-  Assumptions: 17 box(es)
-  Guarantees: 17 box(es)
+  Assumptions: 3 box(es)
+  Guarantees: 2 box(es)
 
 FINAL WELL-FORMEDNESS CHECK (After Evolution)
 --------------------------------------------------------------------------------
@@ -179,7 +171,7 @@ SYSTEM-LEVEL CONTRACT CHECK
 ✗ FAILED: System-level contract is NOT satisfied
   Details:
     Gap detected: 1 box(es) required but not achieved
-    Violation detected: 20 box(es) achieved but not required
+    Violation detected: 15 box(es) achieved but not required
 
 DETAILED SYSTEM-LEVEL COMPARISON
 --------------------------------------------------------------------------------
@@ -188,37 +180,33 @@ REQUIRED by system-level contract:
   [1] ZonotopeRegion(control_error∈[0.00, 20.00], motor_current∈[0.00, 18.00], nav_drift∈[0.00, 3.00], nav_position_error∈[0.00, 12.00], power_mode∈[0.00, 2.00])
 
 ACHIEVED by evolved system:
-  Total: 85 guarantee boxes from all components
+  Total: 27 guarantee boxes from all components
 
-  Battery (17 boxes):
+  Battery (2 boxes):
     [1] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
     [2] ZonotopeRegion(battery_current∈[0.00, 40.00], battery_soc∈[20.00, 100.00], battery_voltage∈[9.50, 12.60])
-    [3] ZonotopeRegion(battery_current∈[0.00, 40.00], battery_soc∈[20.00, 100.00], battery_voltage∈[9.50, 12.60])
-    ... (14 more boxes)
 
-  FlightController (17 boxes):
+  FlightController (9 boxes):
     [1] ZonotopeRegion(control_error∈[0.00, 15.00], thrust_command∈[0.00, 30.00])
-    [2] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-    [3] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 30.00])
-    ... (14 more boxes)
+    [2] ZonotopeRegion(control_error∈[5.00, 100.00], thrust_command∈[0.00, 16.00])
+    [3] ZonotopeRegion(control_error∈[0.50, 100.00], thrust_command∈[0.00, 10.00])
+    ... (6 more boxes)
 
-  Motor (17 boxes):
+  Motor (7 boxes):
     [1] ZonotopeRegion(motor_current∈[0.00, 15.00], motor_response_time∈[0.05, 0.50], motor_thrust∈[0.00, 25.00])
-    [2] ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 1.85], motor_thrust∈[0.00, 100.00])
-    [3] ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 1.85], motor_thrust∈[0.00, 100.00])
-    ... (14 more boxes)
+    [2] ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 0.80], motor_thrust∈[0.00, 16.00])
+    [3] ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 0.80], motor_thrust∈[0.00, 10.00])
+    ... (4 more boxes)
 
-  NavigationEstimator (17 boxes):
-    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
-    [2] ZonotopeRegion(nav_drift∈[0.00, 3.50], nav_position_error∈[0.50, 15.00])
-    [3] ZonotopeRegion(nav_drift∈[0.00, 1.85], nav_position_error∈[0.50, 10.20])
-    ... (14 more boxes)
+  NavigationEstimator (7 boxes):
+    [1] ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[0.50, 5.00])
+    [2] ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[5.00, 8.00])
+    [3] ZonotopeRegion(nav_drift∈[0.50, 1.50], nav_position_error∈[0.50, 5.00])
+    ... (4 more boxes)
 
-  PowerManager (17 boxes):
+  PowerManager (2 boxes):
     [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
     [2] ZonotopeRegion(power_mode∈[0.00, 3.00], voltage_available∈[9.00, 12.60], voltage_margin∈[-1.20, 2.40])
-    [3] ZonotopeRegion(power_mode∈[0.00, 3.00], voltage_available∈[9.00, 12.60], voltage_margin∈[-1.20, 2.40])
-    ... (14 more boxes)
 
 --------------------------------------------------------------------------------
 ANALYSIS: How are we violating the system-level contract?
@@ -232,14 +220,14 @@ ANALYSIS: How are we violating the system-level contract?
    impossible to satisfy these requirements. The system cannot operate within
    these bounds given the component changes.
 
-⚠️  VIOLATION: 20 box(es) achieved but NOT required
+⚠️  VIOLATION: 15 box(es) achieved but NOT required
    These behaviors are PROVIDED but were not in the original requirements:
-   [1] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-   [2] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-   [3] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
+   [1] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 30.00])
+   [2] ZonotopeRegion(control_error∈[0.50, 100.00], thrust_command∈[0.00, 24.00])
+   [3] ZonotopeRegion(control_error∈[0.05, 100.00], thrust_command∈[0.00, 100.00])
    [4] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-   [5] ZonotopeRegion(control_error∈[0.00, 100.00], thrust_command∈[0.00, 100.00])
-   ... (15 more boxes)
+   [5] ZonotopeRegion(control_error∈[0.10, 100.00], thrust_command∈[0.00, 100.00])
+   ... (10 more boxes)
 
    Interpretation: The system is providing additional behaviors beyond what was
    specified. This could indicate over-specification or emergent behaviors from
@@ -248,7 +236,7 @@ ANALYSIS: How are we violating the system-level contract?
 ================================================================================
 CONCLUSION: System-level contract is NOT satisfied
   • Missing 1 required behavior(s)
-  • Providing 20 unexpected behavior(s)
+  • Providing 15 unexpected behavior(s)
 ================================================================================
 
 ================================================================================

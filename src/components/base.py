@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Set, Dict, Tuple, List, Optional
 import pulp
 from ..contracts import BehaviorSet, Box
+from ..exceptions import MILPTransformFailure
 
 
 class BaseComponent(ABC):
@@ -23,11 +24,11 @@ class BaseComponent(ABC):
         # Use CBC with timeout
         try:
             if pulp.GUROBI_CMD().available():
-                self.solver = pulp.GUROBI_CMD(msg=0, timeLimit=5)
+                self.solver = pulp.GUROBI_CMD(msg=0)
             else:
-                self.solver = pulp.PULP_CBC_CMD(msg=0, timeLimit=5)
+                self.solver = pulp.PULP_CBC_CMD(msg=0)
         except:
-            self.solver = pulp.PULP_CBC_CMD(msg=0, timeLimit=5)
+            self.solver = pulp.PULP_CBC_CMD(msg=0)
     
     @abstractmethod
     def get_constraints(self, 
@@ -61,6 +62,9 @@ class BaseComponent(ABC):
         """
         Compute output box from single input box using optimization.
         For each output variable, solve min and max.
+        
+        Raises:
+            MILPTransformFailure: If any optimization is not optimal
         """
         # Create optimization problem
         prob = pulp.LpProblem(f"{self.name}_post", pulp.LpMinimize)
@@ -94,13 +98,35 @@ class BaseComponent(ABC):
             
             try:
                 prob.solve(self.solver)
-                if prob.status == pulp.LpStatusOptimal:
-                    min_val = pulp.value(output_vars[out_var])
-                else:
-                    # Infeasible or unbounded - use conservative bounds
-                    min_val = -1000.0
-            except:
-                min_val = -1000.0
+            except Exception as solver_error:
+                # Solver raised an exception - treat as failure
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="post",
+                    variable_being_optimized=out_var,
+                    optimization_direction="minimize",
+                    solver_status=0,
+                    solver_status_name=f"Solver Error: {str(solver_error)}",
+                    solver_name=str(type(self.solver).__name__),
+                    input_region=input_dict,
+                    problem=prob
+                )
+            
+            if prob.status != pulp.LpStatusOptimal:
+                # FAIL FAST: Raise exception with full diagnostics
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="post",
+                    variable_being_optimized=out_var,
+                    optimization_direction="minimize",
+                    solver_status=prob.status,
+                    solver_status_name=pulp.LpStatus[prob.status],
+                    solver_name=str(type(self.solver).__name__),
+                    input_region=input_dict,
+                    problem=prob
+                )
+            
+            min_val = pulp.value(output_vars[out_var])
             
             # Maximize
             prob.sense = pulp.LpMaximize
@@ -108,13 +134,35 @@ class BaseComponent(ABC):
             
             try:
                 prob.solve(self.solver)
-                if prob.status == pulp.LpStatusOptimal:
-                    max_val = pulp.value(output_vars[out_var])
-                else:
-                    max_val = 1000.0
-            except:
-                max_val = 1000.0
+            except Exception as solver_error:
+                # Solver raised an exception - treat as failure
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="post",
+                    variable_being_optimized=out_var,
+                    optimization_direction="maximize",
+                    solver_status=0,
+                    solver_status_name=f"Solver Error: {str(solver_error)}",
+                    solver_name=str(type(self.solver).__name__),
+                    input_region=input_dict,
+                    problem=prob
+                )
             
+            if prob.status != pulp.LpStatusOptimal:
+                # FAIL FAST: Raise exception with full diagnostics
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="post",
+                    variable_being_optimized=out_var,
+                    optimization_direction="maximize",
+                    solver_status=prob.status,
+                    solver_status_name=pulp.LpStatus[prob.status],
+                    solver_name=str(type(self.solver).__name__),
+                    input_region=input_dict,
+                    problem=prob
+                )
+            
+            max_val = pulp.value(output_vars[out_var])
             output_bounds[out_var] = (min_val, max_val)
         
         if not output_bounds:
@@ -144,6 +192,9 @@ class BaseComponent(ABC):
         """
         Compute input box from single output box using optimization.
         For each input variable, solve min and max.
+        
+        Raises:
+            MILPTransformFailure: If any optimization is not optimal
         """
         # Create optimization problem
         prob = pulp.LpProblem(f"{self.name}_pre", pulp.LpMinimize)
@@ -177,12 +228,35 @@ class BaseComponent(ABC):
             
             try:
                 prob.solve(self.solver)
-                if prob.status == pulp.LpStatusOptimal:
-                    min_val = pulp.value(input_vars[in_var])
-                else:
-                    min_val = -1000.0
-            except:
-                min_val = -1000.0
+            except Exception as solver_error:
+                # Solver raised an exception - treat as failure
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="pre",
+                    variable_being_optimized=in_var,
+                    optimization_direction="minimize",
+                    solver_status=0,
+                    solver_status_name=f"Solver Error: {str(solver_error)}",
+                    solver_name=str(type(self.solver).__name__),
+                    output_region=output_dict,
+                    problem=prob
+                )
+            
+            if prob.status != pulp.LpStatusOptimal:
+                # FAIL FAST: Raise exception with full diagnostics
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="pre",
+                    variable_being_optimized=in_var,
+                    optimization_direction="minimize",
+                    solver_status=prob.status,
+                    solver_status_name=pulp.LpStatus[prob.status],
+                    solver_name=str(type(self.solver).__name__),
+                    output_region=output_dict,
+                    problem=prob
+                )
+            
+            min_val = pulp.value(input_vars[in_var])
             
             # Maximize
             prob.sense = pulp.LpMaximize
@@ -190,13 +264,35 @@ class BaseComponent(ABC):
             
             try:
                 prob.solve(self.solver)
-                if prob.status == pulp.LpStatusOptimal:
-                    max_val = pulp.value(input_vars[in_var])
-                else:
-                    max_val = 1000.0
-            except:
-                max_val = 1000.0
+            except Exception as solver_error:
+                # Solver raised an exception - treat as failure
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="pre",
+                    variable_being_optimized=in_var,
+                    optimization_direction="maximize",
+                    solver_status=0,
+                    solver_status_name=f"Solver Error: {str(solver_error)}",
+                    solver_name=str(type(self.solver).__name__),
+                    output_region=output_dict,
+                    problem=prob
+                )
             
+            if prob.status != pulp.LpStatusOptimal:
+                # FAIL FAST: Raise exception with full diagnostics
+                raise MILPTransformFailure(
+                    component_name=self.name,
+                    transformer_type="pre",
+                    variable_being_optimized=in_var,
+                    optimization_direction="maximize",
+                    solver_status=prob.status,
+                    solver_status_name=pulp.LpStatus[prob.status],
+                    solver_name=str(type(self.solver).__name__),
+                    output_region=output_dict,
+                    problem=prob
+                )
+            
+            max_val = pulp.value(input_vars[in_var])
             input_bounds[in_var] = (min_val, max_val)
         
         if not input_bounds:

@@ -1,0 +1,42 @@
+================================================================================
+COMPONENT: Motor
+ITERATION: 2
+================================================================================
+
+Component Information:
+  Inputs:  ['thrust_command', 'voltage_available']
+  Outputs: ['motor_current', 'motor_response_time', 'motor_thrust']
+
+Deviation:
+  ΔA_rel (assumption relaxation):      0 boxes
+  ΔA_str (assumption strengthening):   8 boxes
+  ΔG_rel (guarantee relaxation):       0 boxes
+  ΔG_str (guarantee strengthening):    20 boxes
+  Total magnitude:                     28.00
+
+Baseline Contract:
+  Assumptions:  1 boxes
+  Guarantees:   1 boxes
+
+  Sample baseline assumption:
+    thrust_command                 ∈ [    0.0000,    30.0000]
+    voltage_available              ∈ [   10.5000,    12.6000]
+
+  Sample baseline guarantee:
+    motor_current                  ∈ [    0.0000,    15.0000]
+    motor_response_time            ∈ [    0.0500,     0.5000]
+    motor_thrust                   ∈ [    0.0000,    25.0000]
+
+Evolved Contract (Baseline + Deviation):
+  Assumptions:  0 boxes
+  Guarantees:   1 boxes
+
+  (No assumption boxes)
+
+  All Guarantee Boxes:
+    Box 1:
+      motor_current                ∈ [    2.0000,    12.0000]
+      motor_response_time          ∈ [    0.0800,     0.3500]
+      motor_thrust                 ∈ [    5.0000,    25.0000]
+
+================================================================================

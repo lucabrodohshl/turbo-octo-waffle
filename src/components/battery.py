@@ -104,7 +104,11 @@ class Battery(BaseComponent):
                 output_vars['battery_current'] <= cap + M * (1 - mode_vars[mode])
             )
         
-        # Voltage bounds (after sag)
+        # Physical bounds on inputs
+        constraints.append(input_vars['power_mode'] >= 0)
+        constraints.append(input_vars['power_mode'] <= 3)
+        
+        # Physical bounds on outputs
         constraints.append(output_vars['battery_voltage'] >= 9.5)
         constraints.append(output_vars['battery_voltage'] <= 12.6)
         

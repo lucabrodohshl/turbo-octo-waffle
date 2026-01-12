@@ -2,7 +2,7 @@
 CONTRACT EVOLUTION REPORT
 ================================================================================
 Scenario: MotorUpgrade
-Generated: 2026-01-08 00:49:52
+Generated: 2026-01-12 18:53:58
 
 DESCRIPTION
 --------------------------------------------------------------------------------
@@ -61,58 +61,56 @@ Deviation:
 
 ITERATION SUMMARY
 --------------------------------------------------------------------------------
-Total iterations: 7
+Total iterations: 5
 Converged: True
-Total time: 55.793 seconds
+Total time: 10.156 seconds
 
 Per-Iteration Metrics:
 Iter   Total Mag    ΔA_rel     ΔA_str     ΔG_rel     ΔG_str     Time(ms)  
 ----------------------------------------------------------------------------
-1      42.0         0          15         0          27         840.8     
-2      102.0        0          50         0          52         2043.0    
-3      163.0        0          84         0          79         6740.2    
-4      174.0        0          83         0          91         11418.0   
-5      178.0        0          85         0          93         11821.4   
-6      179.0        0          85         0          94         11492.0   
-7      179.0        0          85         0          94         11437.3   
+1      42.0         0          15         0          27         725.7     
+2      60.0         0          24         0          36         1995.7    
+3      45.0         0          16         0          29         3194.3    
+4      46.0         0          16         0          30         2117.4    
+5      46.0         0          16         0          30         2122.7    
 
 FINAL DEVIATIONS
 --------------------------------------------------------------------------------
 
 Battery:
-  Total magnitude: 34.0
+  Total magnitude: 4.0
   ΔA_rel: 0 box(es)
-  ΔA_str: 17 box(es)
+  ΔA_str: 1 box(es)
   ΔG_rel: 0 box(es)
-  ΔG_str: 17 box(es)
+  ΔG_str: 3 box(es)
 
 FlightController:
-  Total magnitude: 37.0
+  Total magnitude: 10.0
   ΔA_rel: 0 box(es)
-  ΔA_str: 17 box(es)
+  ΔA_str: 3 box(es)
   ΔG_rel: 0 box(es)
-  ΔG_str: 20 box(es)
+  ΔG_str: 7 box(es)
 
 Motor:
-  Total magnitude: 37.0
+  Total magnitude: 21.0
   ΔA_rel: 0 box(es)
-  ΔA_str: 17 box(es)
+  ΔA_str: 8 box(es)
   ΔG_rel: 0 box(es)
-  ΔG_str: 20 box(es)
+  ΔG_str: 13 box(es)
 
 NavigationEstimator:
-  Total magnitude: 34.0
+  Total magnitude: 4.0
   ΔA_rel: 0 box(es)
-  ΔA_str: 17 box(es)
+  ΔA_str: 1 box(es)
   ΔG_rel: 0 box(es)
-  ΔG_str: 17 box(es)
+  ΔG_str: 3 box(es)
 
 PowerManager:
-  Total magnitude: 37.0
+  Total magnitude: 7.0
   ΔA_rel: 0 box(es)
-  ΔA_str: 17 box(es)
+  ΔA_str: 3 box(es)
   ΔG_rel: 0 box(es)
-  ΔG_str: 20 box(es)
+  ΔG_str: 4 box(es)
 
 FINAL CONTRACTS SUMMARY
 --------------------------------------------------------------------------------
@@ -130,34 +128,38 @@ Motor:
   Guarantees: 1 box(es)
 
 NavigationEstimator:
-  Assumptions: 1 box(es)
+  Assumptions: 0 box(es)
   Guarantees: 1 box(es)
 
 PowerManager:
-  Assumptions: 0 box(es)
+  Assumptions: 1 box(es)
   Guarantees: 1 box(es)
 
 FINAL WELL-FORMEDNESS CHECK (After Evolution)
 --------------------------------------------------------------------------------
 ✗ FAILED: Network is NOT well-formed
   Details:
-    Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_response_time', 'motor_thrust'}
-    Motor → PowerManager: Consumer assumption does not contain supplier guarantee on {'motor_current'}
+    Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_thrust', 'motor_response_time'}
     PowerManager → FlightController: Consumer assumption does not contain supplier guarantee on {'power_mode'}
     Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_voltage', 'battery_current'}
     PowerManager → Battery: Consumer assumption does not contain supplier guarantee on {'power_mode'}
     NavigationEstimator → FlightController: Consumer assumption does not contain supplier guarantee on {'nav_position_error'}
+    FlightController → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'control_error'}
+    Motor → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'motor_current'}
+    PowerManager → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'power_mode'}
 
 DETAILED WELL-FORMEDNESS VIOLATIONS:
 Note: For well-formedness, consumer assumptions must be subsets of supplier guarantees.
 Violation indicates: A_consumer ⊈ G_supplier on the specified variables.
 
-  Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_response_time', 'motor_thrust'}
-  Motor → PowerManager: Consumer assumption does not contain supplier guarantee on {'motor_current'}
+  Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_thrust', 'motor_response_time'}
   PowerManager → FlightController: Consumer assumption does not contain supplier guarantee on {'power_mode'}
   Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_voltage', 'battery_current'}
   PowerManager → Battery: Consumer assumption does not contain supplier guarantee on {'power_mode'}
   NavigationEstimator → FlightController: Consumer assumption does not contain supplier guarantee on {'nav_position_error'}
+  FlightController → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'control_error'}
+  Motor → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'motor_current'}
+  PowerManager → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'power_mode'}
 
 SYSTEM-LEVEL CONTRACT CHECK
 --------------------------------------------------------------------------------
@@ -185,7 +187,7 @@ ACHIEVED by evolved system:
     [1] ZonotopeRegion(motor_current∈[0.00, 15.00], motor_response_time∈[0.05, 0.50], motor_thrust∈[0.00, 25.00])
 
   NavigationEstimator (1 boxes):
-    [1] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+    [1] ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[0.50, 5.00])
 
   PowerManager (1 boxes):
     [1] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
@@ -208,7 +210,7 @@ ANALYSIS: How are we violating the system-level contract?
    [2] ZonotopeRegion(motor_current∈[0.00, 15.00], motor_response_time∈[0.05, 0.50], motor_thrust∈[0.00, 25.00])
    [3] ZonotopeRegion(power_mode∈[0.00, 1.00], voltage_available∈[10.50, 12.60], voltage_margin∈[0.30, 2.40])
    [4] ZonotopeRegion(battery_current∈[0.00, 30.00], battery_soc∈[60.00, 100.00], battery_voltage∈[11.50, 12.60])
-   [5] ZonotopeRegion(nav_drift∈[0.00, 1.00], nav_position_error∈[0.50, 6.00])
+   [5] ZonotopeRegion(nav_drift∈[0.00, 0.50], nav_position_error∈[0.50, 5.00])
 
    Interpretation: The system is providing additional behaviors beyond what was
    specified. This could indicate over-specification or emergent behaviors from

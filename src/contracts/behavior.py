@@ -153,14 +153,28 @@ class BehaviorSet:
         if self.is_empty():
             return BehaviorSet(other.regions[:])
         
-        # Simple approach: concatenate regions
+        # Concatenate regions
         all_regions = self.regions + other.regions
         
-        # Aggressively merge if too many regions
-        if len(all_regions) > MAX_ZONOTOPES_PER_SET:
-            all_regions = self._apply_cache_management(all_regions)
+        # Remove duplicates by comparing bounds dictionaries
+        unique_regions = []
+        seen_bounds = set()
         
-        return BehaviorSet(all_regions)
+        for region in all_regions:
+            # Create hashable representation of bounds
+            bounds_dict = region.to_bounds_dict()
+            # Sort by key and convert to tuple of tuples for hashing
+            bounds_tuple = tuple(sorted((k, v) for k, v in bounds_dict.items()))
+            
+            if bounds_tuple not in seen_bounds:
+                seen_bounds.add(bounds_tuple)
+                unique_regions.append(region)
+        
+        # Aggressively merge if too many regions
+        if len(unique_regions) > MAX_ZONOTOPES_PER_SET:
+            unique_regions = self._apply_cache_management(unique_regions)
+        
+        return BehaviorSet(unique_regions)
     
     def intersection(self, other: 'BehaviorSet') -> 'BehaviorSet':
         """
