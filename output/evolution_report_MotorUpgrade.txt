@@ -2,7 +2,7 @@
 CONTRACT EVOLUTION REPORT
 ================================================================================
 Scenario: MotorUpgrade
-Generated: 2026-01-12 18:53:58
+Generated: 2026-01-13 16:37:03
 
 DESCRIPTION
 --------------------------------------------------------------------------------
@@ -63,50 +63,50 @@ ITERATION SUMMARY
 --------------------------------------------------------------------------------
 Total iterations: 5
 Converged: True
-Total time: 10.156 seconds
+Total time: 10.290 seconds
 
 Per-Iteration Metrics:
 Iter   Total Mag    ΔA_rel     ΔA_str     ΔG_rel     ΔG_str     Time(ms)  
 ----------------------------------------------------------------------------
-1      42.0         0          15         0          27         725.7     
-2      60.0         0          24         0          36         1995.7    
-3      45.0         0          16         0          29         3194.3    
-4      46.0         0          16         0          30         2117.4    
-5      46.0         0          16         0          30         2122.7    
+1      147201.0     0          147041     0          160        717.2     
+2      168925.8     0          167801     0          1125       1963.8    
+3      109195.0     0          107789     0          1406       3151.1    
+4      109213.8     0          107789     0          1425       2183.1    
+5      109213.8     0          107789     0          1425       2275.3    
 
 FINAL DEVIATIONS
 --------------------------------------------------------------------------------
 
 Battery:
-  Total magnitude: 4.0
+  Total magnitude: 387.0
   ΔA_rel: 0 box(es)
   ΔA_str: 1 box(es)
   ΔG_rel: 0 box(es)
   ΔG_str: 3 box(es)
 
 FlightController:
-  Total magnitude: 10.0
+  Total magnitude: 81336.9
   ΔA_rel: 0 box(es)
   ΔA_str: 3 box(es)
   ΔG_rel: 0 box(es)
   ΔG_str: 7 box(es)
 
 Motor:
-  Total magnitude: 21.0
+  Total magnitude: 1634.7
   ΔA_rel: 0 box(es)
   ΔA_str: 8 box(es)
   ΔG_rel: 0 box(es)
   ΔG_str: 13 box(es)
 
 NavigationEstimator:
-  Total magnitude: 4.0
+  Total magnitude: 15135.0
   ΔA_rel: 0 box(es)
   ΔA_str: 1 box(es)
   ΔG_rel: 0 box(es)
   ΔG_str: 3 box(es)
 
 PowerManager:
-  Total magnitude: 7.0
+  Total magnitude: 10720.1
   ΔA_rel: 0 box(es)
   ΔA_str: 3 box(es)
   ΔG_rel: 0 box(es)
@@ -139,9 +139,9 @@ FINAL WELL-FORMEDNESS CHECK (After Evolution)
 --------------------------------------------------------------------------------
 ✗ FAILED: Network is NOT well-formed
   Details:
-    Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_thrust', 'motor_response_time'}
+    Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_response_time', 'motor_thrust'}
     PowerManager → FlightController: Consumer assumption does not contain supplier guarantee on {'power_mode'}
-    Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_voltage', 'battery_current'}
+    Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_current', 'battery_voltage'}
     PowerManager → Battery: Consumer assumption does not contain supplier guarantee on {'power_mode'}
     NavigationEstimator → FlightController: Consumer assumption does not contain supplier guarantee on {'nav_position_error'}
     FlightController → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'control_error'}
@@ -152,9 +152,9 @@ DETAILED WELL-FORMEDNESS VIOLATIONS:
 Note: For well-formedness, consumer assumptions must be subsets of supplier guarantees.
 Violation indicates: A_consumer ⊈ G_supplier on the specified variables.
 
-  Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_thrust', 'motor_response_time'}
+  Motor → FlightController: Consumer assumption does not contain supplier guarantee on {'motor_response_time', 'motor_thrust'}
   PowerManager → FlightController: Consumer assumption does not contain supplier guarantee on {'power_mode'}
-  Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_voltage', 'battery_current'}
+  Battery → PowerManager: Consumer assumption does not contain supplier guarantee on {'battery_current', 'battery_voltage'}
   PowerManager → Battery: Consumer assumption does not contain supplier guarantee on {'power_mode'}
   NavigationEstimator → FlightController: Consumer assumption does not contain supplier guarantee on {'nav_position_error'}
   FlightController → NavigationEstimator: Consumer assumption does not contain supplier guarantee on {'control_error'}

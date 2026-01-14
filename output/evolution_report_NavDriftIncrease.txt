@@ -2,7 +2,7 @@
 CONTRACT EVOLUTION REPORT
 ================================================================================
 Scenario: NavDriftIncrease
-Generated: 2026-01-12 18:54:39
+Generated: 2026-01-13 16:38:58
 
 DESCRIPTION
 --------------------------------------------------------------------------------
@@ -61,24 +61,24 @@ ITERATION SUMMARY
 --------------------------------------------------------------------------------
 Total iterations: 7
 Converged: True
-Total time: 12.569 seconds
+Total time: 11.811 seconds
 
 Per-Iteration Metrics:
 Iter   Total Mag    ΔA_rel     ΔA_str     ΔG_rel     ΔG_str     Time(ms)  
 ----------------------------------------------------------------------------
-1      15.0         5          0          10         0          208.1     
-2      29.0         14         0          15         0          788.6     
-3      43.0         22         0          21         0          1527.0    
-4      53.0         28         0          25         0          2718.2    
-5      50.0         28         0          22         0          2521.4    
-6      51.0         29         0          22         0          2395.6    
-7      51.0         29         0          22         0          2409.6    
+1      9134.4       24         0          9110       0          214.6     
+2      12468.4      594        0          11874      0          788.8     
+3      32182.5      801        0          31382      0          1463.5    
+4      99251.6      825        0          98426      0          2481.3    
+5      69925.6      1189       0          68736      0          2355.8    
+6      70025.5      1289       0          68736      0          2224.5    
+7      70025.5      1289       0          68736      0          2282.5    
 
 FINAL DEVIATIONS
 --------------------------------------------------------------------------------
 
 Battery:
-  Total magnitude: 2.0
+  Total magnitude: 9923.0
   ΔA_rel: 1 box(es)
   ΔA_str: 0 box(es)
   ΔG_rel: 1 box(es)
@@ -89,7 +89,7 @@ Battery:
     ZonotopeRegion(battery_current∈[0.00, 40.00], battery_soc∈[20.00, 100.00], battery_voltage∈[9.50, 12.60])
 
 FlightController:
-  Total magnitude: 20.0
+  Total magnitude: 47779.2
   ΔA_rel: 12 box(es)
   ΔA_str: 0 box(es)
   ΔG_rel: 8 box(es)
@@ -102,7 +102,7 @@ FlightController:
     ZonotopeRegion(control_error∈[0.50, 100.00], thrust_command∈[0.00, 10.00])
 
 Motor:
-  Total magnitude: 12.0
+  Total magnitude: 10943.6
   ΔA_rel: 6 box(es)
   ΔA_str: 0 box(es)
   ΔG_rel: 6 box(es)
@@ -115,7 +115,7 @@ Motor:
     ZonotopeRegion(motor_current∈[0.00, 50.00], motor_response_time∈[0.01, 0.80], motor_thrust∈[0.00, 10.00])
 
 NavigationEstimator:
-  Total magnitude: 14.0
+  Total magnitude: 1166.8
   ΔA_rel: 8 box(es)
   ΔA_str: 0 box(es)
   ΔG_rel: 6 box(es)
@@ -128,7 +128,7 @@ NavigationEstimator:
     ZonotopeRegion(nav_drift∈[0.50, 1.50], nav_position_error∈[0.50, 5.00])
 
 PowerManager:
-  Total magnitude: 3.0
+  Total magnitude: 212.9
   ΔA_rel: 2 box(es)
   ΔA_str: 0 box(es)
   ΔG_rel: 1 box(es)

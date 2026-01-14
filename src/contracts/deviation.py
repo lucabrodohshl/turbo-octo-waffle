@@ -38,13 +38,13 @@ class Deviation:
     
     def total_magnitude(self) -> float:
         """
-        Total magnitude of deviation (sum of box counts).
+        Total magnitude of deviation (sum of hypervolumes).
         Used for iteration metrics.
         """
-        return (len(self.assumption_relaxation.boxes) +
-                len(self.assumption_strengthening.boxes) +
-                len(self.guarantee_relaxation.boxes) +
-                len(self.guarantee_strengthening.boxes))
+        return (self.assumption_relaxation.volume() +
+                self.assumption_strengthening.volume() +
+                self.guarantee_relaxation.volume() +
+                self.guarantee_strengthening.volume())
     
     def subset_of(self, other: 'Deviation') -> bool:
         """

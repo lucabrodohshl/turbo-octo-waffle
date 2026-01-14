@@ -2,7 +2,7 @@
 CONTRACT EVOLUTION TRACE - ITERATION BY ITERATION
 ================================================================================
 Scenario: MotorUpgrade
-Generated: 2026-01-12 18:53:58
+Generated: 2026-01-13 16:37:03
 
 This trace shows how each component's contract evolved through fixpoint iterations.
 Total iterations: 6
@@ -13,7 +13,7 @@ Total iterations: 6
 ITERATION 0
 ================================================================================
 Initial state: Baseline contracts + target deviation
-Total magnitude: 22.0
+Total magnitude: 155.8
 
 --------------------------------------------------------------------------------
 Component: Battery
@@ -43,7 +43,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:17)
-  Magnitude: 22.0
+  Magnitude: 155.8
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -81,7 +81,7 @@ Reconstructed Contract:
 ITERATION 1
 ================================================================================
 After applying evolution operator Φ (iteration 1)
-Total magnitude: 42.0
+Total magnitude: 147201.0
 
 --------------------------------------------------------------------------------
 Component: Battery
@@ -99,7 +99,7 @@ Reconstructed Contract:
 Component: FlightController
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:5)
-  Magnitude: 10.0
+  Magnitude: 133540.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -111,7 +111,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:17)
-  Magnitude: 22.0
+  Magnitude: 155.8
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -136,7 +136,7 @@ Reconstructed Contract:
 Component: PowerManager
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:5)
-  Magnitude: 10.0
+  Magnitude: 13505.2
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -150,13 +150,13 @@ Reconstructed Contract:
 ITERATION 2
 ================================================================================
 After applying evolution operator Φ (iteration 2)
-Total magnitude: 60.0
+Total magnitude: 168925.8
 
 --------------------------------------------------------------------------------
 Component: Battery
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:5)
-  Magnitude: 10.0
+  Magnitude: 519.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -168,7 +168,7 @@ Reconstructed Contract:
 Component: FlightController
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:3)
-  Magnitude: 6.0
+  Magnitude: 81030.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -180,7 +180,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:8, ΔG_str:20)
-  Magnitude: 28.0
+  Magnitude: 1439.2
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -192,7 +192,7 @@ Reconstructed Contract:
 Component: NavigationEstimator
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:5, ΔG_str:5)
-  Magnitude: 10.0
+  Magnitude: 75222.5
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -204,7 +204,7 @@ Reconstructed Contract:
 Component: PowerManager
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:3)
-  Magnitude: 6.0
+  Magnitude: 10715.1
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -218,13 +218,13 @@ Reconstructed Contract:
 ITERATION 3
 ================================================================================
 After applying evolution operator Φ (iteration 3)
-Total magnitude: 45.0
+Total magnitude: 109195.0
 
 --------------------------------------------------------------------------------
 Component: Battery
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 387.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -236,7 +236,7 @@ Reconstructed Contract:
 Component: FlightController
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:7)
-  Magnitude: 10.0
+  Magnitude: 81336.9
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -248,7 +248,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:8, ΔG_str:12)
-  Magnitude: 20.0
+  Magnitude: 1616.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -259,7 +259,7 @@ Reconstructed Contract:
 Component: NavigationEstimator
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 15135.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -271,7 +271,7 @@ Reconstructed Contract:
 Component: PowerManager
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:4)
-  Magnitude: 7.0
+  Magnitude: 10720.1
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -285,13 +285,13 @@ Reconstructed Contract:
 ITERATION 4
 ================================================================================
 After applying evolution operator Φ (iteration 4)
-Total magnitude: 46.0
+Total magnitude: 109213.8
 
 --------------------------------------------------------------------------------
 Component: Battery
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 387.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -303,7 +303,7 @@ Reconstructed Contract:
 Component: FlightController
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:7)
-  Magnitude: 10.0
+  Magnitude: 81336.9
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -315,7 +315,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:8, ΔG_str:13)
-  Magnitude: 21.0
+  Magnitude: 1634.7
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -326,7 +326,7 @@ Reconstructed Contract:
 Component: NavigationEstimator
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 15135.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -338,7 +338,7 @@ Reconstructed Contract:
 Component: PowerManager
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:4)
-  Magnitude: 7.0
+  Magnitude: 10720.1
 
 Reconstructed Contract:
   Assumptions (1 boxes):
@@ -352,13 +352,13 @@ Reconstructed Contract:
 ITERATION 5
 ================================================================================
 After applying evolution operator Φ (iteration 5)
-Total magnitude: 46.0
+Total magnitude: 109213.8
 
 --------------------------------------------------------------------------------
 Component: Battery
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 387.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -370,7 +370,7 @@ Reconstructed Contract:
 Component: FlightController
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:7)
-  Magnitude: 10.0
+  Magnitude: 81336.9
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -382,7 +382,7 @@ Reconstructed Contract:
 Component: Motor
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:8, ΔG_str:13)
-  Magnitude: 21.0
+  Magnitude: 1634.7
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -393,7 +393,7 @@ Reconstructed Contract:
 Component: NavigationEstimator
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:1, ΔG_str:3)
-  Magnitude: 4.0
+  Magnitude: 15135.0
 
 Reconstructed Contract:
   Assumptions (0 boxes):
@@ -405,7 +405,7 @@ Reconstructed Contract:
 Component: PowerManager
 --------------------------------------------------------------------------------
 Deviation: Deviation(ΔA_str:3, ΔG_str:4)
-  Magnitude: 7.0
+  Magnitude: 10720.1
 
 Reconstructed Contract:
   Assumptions (1 boxes):

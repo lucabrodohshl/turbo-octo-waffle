@@ -21,7 +21,8 @@ class IterationMetrics:
     iteration: int
     total_magnitude: float
     per_component_magnitude: Dict[str, float]
-    per_delta_type: Dict[str, float]  # ΔA_rel, ΔA_str, ΔG_rel, ΔG_str
+    per_delta_type: Dict[str, float]  # ΔA_rel, ΔA_str, ΔG_rel, ΔG_str (absolute volumes)
+    per_delta_type_relative: Dict[str, float]  # Relative change from baseline
     time_seconds: float
     num_propagations: int = 0
     converged: bool = False
@@ -158,6 +159,19 @@ class FixpointEngine:
         self.output_dir = output_dir
         self.metrics_history: List[IterationMetrics] = []
         self.delta_history: List[DeviationMap] = []  # Track delta at each iteration
+        
+        # Calculate baseline contract volumes for relative magnitude
+        self.baseline_volumes = self._calculate_baseline_volumes()
+    
+    def _calculate_baseline_volumes(self) -> Dict[str, Dict[str, float]]:
+        """Calculate volume of baseline contracts for each component"""
+        volumes = {}
+        for comp_name, comp_node in self.evolution_operator.network.components.items():
+            volumes[comp_name] = {
+                'assumption': comp_node.baseline_contract.assumptions.volume(),
+                'guarantee': comp_node.baseline_contract.guarantees.volume()
+            }
+        return volumes
     
     def run(self, initial_delta: DeviationMap) -> DeviationMap:
         """
@@ -254,16 +268,36 @@ class FixpointEngine:
         
         for comp_name in self.evolution_operator.network.components.keys():
             dev = delta.get_deviation(comp_name)
-            per_type['ΔA_rel'] += len(dev.assumption_relaxation.boxes)
-            per_type['ΔA_str'] += len(dev.assumption_strengthening.boxes)
-            per_type['ΔG_rel'] += len(dev.guarantee_relaxation.boxes)
-            per_type['ΔG_str'] += len(dev.guarantee_strengthening.boxes)
+            per_type['ΔA_rel'] += dev.assumption_relaxation.volume()
+            per_type['ΔA_str'] += dev.assumption_strengthening.volume()
+            per_type['ΔG_rel'] += dev.guarantee_relaxation.volume()
+            per_type['ΔG_str'] += dev.guarantee_strengthening.volume()
+        
+        # Per delta type relative (normalized by baseline volumes)
+        per_type_relative = {
+            'ΔA_rel': 0.0,
+            'ΔA_str': 0.0,
+            'ΔG_rel': 0.0,
+            'ΔG_str': 0.0
+        }
+        
+        total_baseline_assumption = sum(v['assumption'] for v in self.baseline_volumes.values())
+        total_baseline_guarantee = sum(v['guarantee'] for v in self.baseline_volumes.values())
+        
+        # Relative magnitude = deviation_volume / baseline_volume
+        if total_baseline_assumption > 0:
+            per_type_relative['ΔA_rel'] = per_type['ΔA_rel'] / total_baseline_assumption
+            per_type_relative['ΔA_str'] = per_type['ΔA_str'] / total_baseline_assumption
+        if total_baseline_guarantee > 0:
+            per_type_relative['ΔG_rel'] = per_type['ΔG_rel'] / total_baseline_guarantee
+            per_type_relative['ΔG_str'] = per_type['ΔG_str'] / total_baseline_guarantee
         
         return IterationMetrics(
             iteration=iteration,
             total_magnitude=delta.total_magnitude(),
             per_component_magnitude=per_comp,
             per_delta_type=per_type,
+            per_delta_type_relative=per_type_relative,
             time_seconds=time_elapsed,
             num_propagations=0  # Could be tracked if needed
         )

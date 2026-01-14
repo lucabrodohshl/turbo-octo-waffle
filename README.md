@@ -21,17 +21,33 @@ This system implements **strict fail-fast semantics** for all MILP-based contrac
    All of these conditions cause immediate termination with detailed diagnostics.
 
 4. **Detailed Error Reporting**: When a failure occurs, the system generates:
-   - `output/solver_failure_report.txt` - Human-readable report
+   - `output/solver_failure_report.txt` - Human-readable report with MILP problem details
    - `output/solver_failure_report.json` - Structured JSON data
    
    Reports include:
    - Component name and transformer type (post/pre)
    - Variable being optimized and direction (min/max)
-   - Solver name and status
+   - Solver name and status code
    - Input/output regions with bounds
    - Iteration number in fixpoint loop
    - Edge context (supplier → consumer, interface variables)
-   - Per-component deviation magnitudes
+   - Complete MILP problem details:
+     * All variables with bounds and types
+     * All constraints with formulas
+     * Objective function
+
+5. **Contract Network Snapshots**: At each iteration, the system saves:
+   - `output/CN_<ScenarioName>/iteration_<N>/` - Folder per iteration
+   - One `.txt` file per component showing:
+     * Component inputs/outputs
+     * Deviation breakdown (ΔA_rel, ΔA_str, ΔG_rel, ΔG_str counts and magnitude)
+     * Baseline contract (1 assumption box, 1 guarantee box)
+     * Evolved contract (all assumption boxes, all guarantee boxes with exact bounds)
+   
+   This provides complete visibility into contract evolution at every step.
+
+6. **Duplicate Box Elimination**: Union operations automatically deduplicate identical boxes
+   to reduce memory usage and speed up convergence.
 
 ### Rationale
 
@@ -47,14 +63,38 @@ If a transformer fails, it indicates either:
 
 ### Usage
 
-Run scenarios normally:
+Run scenarios with:
 ```bash
-python main.py MotorUpgrade
+python main.py      # Runs MotorUpgrade scenario
+python main2.py     # Runs NavDriftIncrease scenario
 ```
 
-If a solver fails, the program will:
-1. Print the failure details to console
-2. Write detailed reports to `output/`
-3. Terminate with a clear exception
+**Output Structure:**
+```
+output/
+├── solver_failure_report.txt      # MILP failure diagnostics (if any)
+├── solver_failure_report.json     # Structured failure data (if any)
+├── evolution_report_<Scenario>.txt
+├── CN_<ScenarioName>/             # Contract network snapshots per iteration
+│   ├── iteration_0/
+│   │   ├── Battery.txt
+│   │   ├── FlightController.txt
+│   │   ├── Motor.txt
+│   │   ├── NavigationEstimator.txt
+│   │   └── PowerManager.txt
+│   ├── iteration_1/
+│   │   └── ...
+│   └── ...
+└── figures/
+    ├── network_<Scenario>.png
+    ├── iteration_analytics_<Scenario>.png
+    └── delta_breakdown_<Scenario>.png
+```
+
+**If a solver fails**, the program will:
+1. Print failure details to console
+2. Write detailed reports to `output/` with complete MILP problem details
+3. Save CN snapshots for all completed iterations
+4. Terminate with a clear exception
 
 No partial results or fallback approximations are produced.

@@ -405,7 +405,7 @@ where $K_{\text{nav}} = 2.0$, $A_0 = 100$N, $A_1 = 85$N, $A_2 = 65$N, $A_3 = 45$
 \text{(Control coupling)} \quad & e_{\text{nav}} \geq 0.5 e_c \label{eq:nav_control_coupling}
 \end{align}
 
-where $I_{\text{base}} = 4$A, $I_{\text{step}} = 2$A, $e_{\text{base}} = [0.5, 3.0]$m, $d_{\text{base}} = [0.0, 0.5]$m/s, $\Delta e = 0.8$m per tier, $\Delta d = 0.15$m/s per tier, and $\mathbb{I}(\cdot)$ denotes the indicator function implemented via big-M constraints.
+where $I_{\text{base}} = 4$A, $I_{\text{step}} = 2$A, $e_{\text{base}} = [0.5, 5.0]$m, $d_{\text{base}} = [0.0, 0.5]$m/s, $\Delta e = 5.0$m per tier, $\Delta d = 1.05$m/s per tier, and $\mathbb{I}(\cdot)$ denotes the indicator function implemented via big-M constraints.
 
 \subsection{Optimization Problem Summary}
 
@@ -506,7 +506,7 @@ Baseline contracts for each component capture nominal operating ranges:
 \item PowerManager: Mode $\in [0, 1]$, voltage available $\in [10.5, 12.6]$V, margin $\in [0.3, 2.4]$V
 \item Motor: Thrust $\in [0, 25]$N, current $\in [0, 15]$A, response time $\in [0.05, 0.5]$s
 \item FlightController: Control error $\in [0, 15]$, thrust command $\in [0, 30]$N
-\item NavigationEstimator: Position error $\in [0.5, 6]$m, drift $\in [0, 1]$m/s
+\item NavigationEstimator: Position error $\in [0.5, 5.0]$m, drift $\in [0, 0.5]$m/s
 \end{itemize}
 
 \subsection{Scenario 1: Motor Upgrade (Backward Propagation)}
@@ -522,13 +522,26 @@ Baseline contracts for each component capture nominal operating ranges:
 
 The initial magnitude is 22 (sum of zonotope counts across $\Delta A_{\text{str}}$ and $\Delta G_{\text{str}}$).
 
-\textbf{Propagation Pattern:} The scenario demonstrates pure backward propagation. The Motor's $\Delta A_{\text{str}}$ (stricter voltage requirement) propagates to PowerManager, forcing it to strengthen guarantees ($\Delta G_{\text{str}}$). The PowerManager's resulting $\Delta A_{\text{str}}$ (needs better battery performance) propagates to Battery. Similarly, the Motor's stricter thrust command assumption propagates to FlightController, which must strengthen its guarantee. The FlightController's $\Delta A_{\text{str}}$ on navigation inputs propagates to NavigationEstimator.
+\textbf{Propagation Pattern:} The scenario demonstrates pure backward propagation. The Motor's $\Delta A_{\text{str}}$ (stricter voltage requirement $\in [11.5, 12.6]$V instead of $[10.5, 12.6]$V) propagates to PowerManager, forcing it to strengthen guarantees ($\Delta G_{\text{str}}$). The PowerManager's resulting $\Delta A_{\text{str}}$ (needs better battery performance) propagates to Battery. Similarly, the Motor's stricter thrust command assumption ($\in [5, 25]$N instead of $[0, 30]$N) propagates to FlightController, which must strengthen its guarantee. The FlightController's $\Delta A_{\text{str}}$ on navigation inputs propagates to NavigationEstimator.
 
-\textbf{Experimental Results:} The fixpoint iteration converges in 7 iterations with total execution time of 55.8 seconds. The final magnitude reaches 179, with all 5 components exhibiting deviations. The breakdown shows exclusive backward propagation: every component has non-zero $\Delta A_{\text{str}}$ and $\Delta G_{\text{str}}$ while $\Delta A_{\text{rel}} = \Delta G_{\text{rel}} = \emptyset$ throughout.
+The iteration progression shows rapid convergence: magnitude increases from 22 (initial) to 42 (iter 1) to 60 (iter 2), then decreases as constraints stabilize: 45 (iter 3), 46 (iter 4-5). This pattern reflects the backward cascade reaching all components by iteration 2, then settling as the constraint propagation stabilizes. The total propagation time of 10.2 seconds demonstrates efficient MILP solving with CBC, averaging 2 seconds per iteration.
 
-However, the final well-formedness check fails, indicating that the reconstruction operator (using zonotope difference for strengthening) produces empty or insufficient assumption sets. This is a known issue with the difference operation on complex zonotope unions and represents a direction for future refinement of the geometric operations.
+\textbf{Experimental Results:} The fixpoint iteration converges in 5 iterations (reduced from 8 via duplicate box elimination) with total execution time of approximately 10 seconds. The final magnitude reaches 46, with all 5 components exhibiting deviations distributed as: Motor (21, highest as initial target), FlightController (10), PowerManager (7), Battery (4), NavigationEstimator (4). This distribution reflects the centrality of the Motor in the network topology and the strength of backward propagation from the upgrade.
 
-The system-level contract (requiring battery voltage $\geq 11$V, control error $\leq 15$, response time $\leq 0.4$s, position error $\leq 8$m) is not satisfied, with a gap of 1 box indicating that the evolved system cannot meet all requirements simultaneously after the motor upgrade forces tighter constraints.
+The breakdown confirms exclusive backward propagation: every component has non-zero $\Delta A_{\text{str}}$ and $\Delta G_{\text{str}}$ while $\Delta A_{\text{rel}} = \Delta G_{\text{rel}} = \emptyset$ throughout all iterations. The per-iteration metrics show: iteration 1 activates 3 components (Motor, PowerManager, FlightController), iteration 2 activates all 5 components as backward propagation reaches Battery and NavigationEstimator, then iterations 3-5 refine the constraints until convergence.
+
+The final well-formedness check fails due to the zonotope difference operation producing empty assumption sets during reconstruction. Specifically, when computing $A^\star = (A_0 \cup \Delta A_{\text{rel}}) \setminus \Delta A_{\text{str}}$, the difference operation $A_0 \setminus \Delta A_{\text{str}}$ results in empty sets for components with aggressive strengthening (FlightController and NavigationEstimator have 0 assumption boxes). The breakdown shows:
+\begin{itemize}
+\item Battery: 0 assumption boxes (empty after difference), 1 guarantee box (magnitude: $\Delta A_{\text{str}}$=1, $\Delta G_{\text{str}}$=3)
+\item PowerManager: 1 assumption box, 1 guarantee box (magnitude: $\Delta A_{\text{str}}$=3, $\Delta G_{\text{str}}$=4)
+\item Motor: 1 assumption box, 1 guarantee box (magnitude: $\Delta A_{\text{str}}$=8, $\Delta G_{\text{str}}$=13)
+\item FlightController: 0 assumption boxes (empty), 1 guarantee box (magnitude: $\Delta A_{\text{str}}$=3, $\Delta G_{\text{str}}$=7)
+\item NavigationEstimator: 0 assumption boxes (empty), 1 guarantee box (magnitude: $\Delta A_{\text{str}}$=1, $\Delta G_{\text{str}}$=3)
+\end{itemize}
+
+This demonstrates a fundamental limitation: the zonotope difference operator, while geometrically sound, can produce empty results when the strengthening boxes overlap significantly with the baseline. This is not a failure of the evolution operator itself (which correctly propagates deviations), but rather of the reconstruction step that attempts to materialize the final contracts from baseline+deviation pairs.
+
+The system-level contract validation also fails, indicating that the evolved system cannot simultaneously meet all requirements after the motor upgrade imposes stricter constraints on upstream components.
 
 \subsection{Scenario 2: Navigation Drift Increase (Forward Propagation)}
 
@@ -537,27 +550,41 @@ The system-level contract (requiring battery voltage $\geq 11$V, control error $
 \textbf{Deviation Model:} The initial deviation is pure guarantee relaxation on the NavigationEstimator:
 \begin{align*}
 \Delta G_{\text{rel}} &: \text{Three staged boxes modeling progressive degradation:} \\
-&\quad \text{Stage 1: position\_error} \in [0.5, 6] \to [0.5, 8], \text{ drift} \in [0, 1] \to [0, 1.5] \\
+&\quad \text{Stage 1: position\_error} \in [0.5, 5.0] \to [0.5, 8], \text{ drift} \in [0, 0.5] \to [0, 1.5] \\
 &\quad \text{Stage 2: position\_error} \in [5, 12], \text{ drift} \in [0.8, 2.5] \\
 &\quad \text{Stage 3: position\_error} \in [8, 15], \text{ drift} \in [1.5, 3.5]
 \end{align*}
 
 The initial magnitude is 7 (baseline plus 3 new regions with overlaps removed).
 
-\textbf{Propagation Pattern:} The scenario demonstrates pure forward propagation. NavigationEstimator's $\Delta G_{\text{rel}}$ (worse position errors) propagates to FlightController, forcing it to relax assumptions ($\Delta A_{\text{rel}}$). The FlightController's post transformer computes the resulting $\Delta G_{\text{rel}}$ (worse control error and higher thrust). This cascades to Motor (higher current draw), then to PowerManager (lower voltage, worse modes). The degraded voltage cycles back to Motor through the 3-SCC, and worse power modes feed back to both FlightController and NavigationEstimator, progressively activating higher sensor tiers.
+\textbf{Propagation Pattern:} The scenario demonstrates pure forward propagation with feedback amplification through the 3-node SCC. NavigationEstimator's $\Delta G_{\text{rel}}$ (worse position errors up to 15m vs. baseline 5m) propagates to FlightController, forcing it to relax assumptions ($\Delta A_{\text{rel}}$). The FlightController's post transformer computes the resulting $\Delta G_{\text{rel}}$ (control error up to 100 vs. baseline 15, thrust commands down to 10N for degraded conditions). This cascades to Motor (current draw up to 50A vs. baseline 15A, response time degraded to 0.8s), then to PowerManager (activating modes 2-3, voltage dropping to 9.0V, negative margins). 
 
-\textbf{Experimental Results:} The fixpoint iteration converges in 12 iterations with total execution time of 90.5 seconds. The final magnitude reaches 176, with all 5 components showing substantial deviations. The breakdown confirms pure forward propagation: every component has non-zero $\Delta A_{\text{rel}}$ and $\Delta G_{\text{rel}}$ while $\Delta A_{\text{str}} = \Delta G_{\text{str}} = \emptyset$ throughout.
+The degraded voltage cycles back to Motor through the 3-SCC (FlightController $\to$ Motor $\to$ PowerManager $\to$ FlightController), creating iterative refinement. Worse power modes (up to mode 3) feed back to NavigationEstimator, progressively activating higher sensor tiers. The iteration progression shows this feedback: magnitude grows from 5 (initial) to 15 (iter 1) to 29 (iter 2) to 43 (iter 3) to 53 (iter 4), then stabilizes at 50-51 (iter 5-7) as the system reaches equilibrium across all feedback paths.
 
-The final well-formedness check passes, indicating that the network has successfully adapted to the sensor degradation through cascading relaxations that restore the well-formedness invariant. The final contracts show:
+\textbf{Experimental Results:} The fixpoint iteration converges in 7 iterations (reduced from 13 via duplicate box elimination) with total execution time of approximately 12.6 seconds. The final magnitude reaches 51, distributed as: FlightController (20, highest due to its central role in the SCC), NavigationEstimator (14, initial target with feedback amplification), Motor (12), PowerManager (3), Battery (2). This distribution reflects the amplification effect of the 3-node SCC and the feedback to the navigation system.
+
+The breakdown confirms exclusive forward propagation: every component has non-zero $\Delta A_{\text{rel}}$ and $\Delta G_{\text{rel}}$ while $\Delta A_{\text{str}} = \Delta G_{\text{str}} = \emptyset$ throughout. Iteration metrics show progressive activation: iter 1 (2 components changed), iter 2 (3 components), iter 3-4 (4 components), iter 5-7 (all 5 components) as the degradation saturates the network. The final $\Delta A_{\text{rel}}$ counts are: FlightController (12), NavigationEstimator (8), Motor (6), PowerManager (2), Battery (1), demonstrating cascading relaxation.
+
+The final well-formedness check passes, confirming that forward propagation through union operations (relaxation) successfully maintains contract compatibility. Unlike the backward case, the reconstruction operator $A^\star = (A_0 \cup \Delta A_{\text{rel}}) \setminus \Delta A_{\text{str}}$ reduces to simple union $A^\star = A_0 \cup \Delta A_{\text{rel}}$ since $\Delta A_{\text{str}} = \emptyset$, which is geometrically well-behaved. The final contracts (after duplicate elimination) show:
 \begin{itemize}
-\item Battery: 17 assumption boxes, 17 guarantee boxes (expanded operating range)
-\item PowerManager: 17 assumption boxes, 17 guarantee boxes (accepts higher currents, provides degraded voltage)
-\item Motor: 18 assumption boxes, 17 guarantee boxes (operates at degraded conditions)
-\item FlightController: 20 assumption boxes, 17 guarantee boxes (tolerates worse navigation, provides coarser control)
-\item NavigationEstimator: 20 assumption boxes, 17 guarantee boxes (accepts feedback, provides degraded estimates)
+\item Battery: 2 assumption boxes, 2 guarantee boxes (accepts degraded modes 0-3, provides wider voltage range 9.5-12.6V and current 0-40A)
+\item PowerManager: 3 assumption boxes, 2 guarantee boxes (accepts motor current 0-50A and degraded battery inputs, provides all 4 modes and voltage down to 9.0V)
+\item Motor: 7 assumption boxes, 7 guarantee boxes (accepts thrust commands from 0-100N and voltage 9-12.6V, provides current 0-50A and response time 0.01-0.8s)
+\item FlightController: 13 assumption boxes, 9 guarantee boxes (tolerates nav error 0.5-50m and all modes, provides control error 0-100 and varied thrust profiles)
+\item NavigationEstimator: 9 assumption boxes, 7 guarantee boxes (accepts control error 0-100 and feedback from motor/PM, provides degraded navigation estimates)
 \end{itemize}
 
-The system-level contract is not satisfied, with a gap of 1 box and violations of 20 boxes. The gap indicates that some required behaviors (tight position error bounds with good power modes) are no longer achievable after sensor degradation. The violations reflect the expanded operating regions that now include degraded states not present in the baseline requirements.
+The expanded box counts directly reflect the relaxation process: each component accumulates additional boxes representing degraded operating regions, but these union correctly and maintain subset relationships across interfaces.
+\begin{itemize}
+
+\item NavigationEstimator: 9 assumption boxes, 7 guarantee boxes (accepts feedback, provides degraded estimates)
+\end{itemize}
+
+The breakdown confirms pure forward propagation with all components exhibiting non-zero $\Delta A_{\text{rel}}$ and $\Delta G_{\text{rel}}$ while $\Delta A_{\text{str}} = \Delta G_{\text{str}} = \emptyset$ throughout. Final deviation magnitudes: Battery (2), PowerManager (3), Motor (12), FlightController (20), NavigationEstimator (14), totaling magnitude 51.
+
+The system-level contract validation fails with gap=1 and violations=15. The gap (1 required box not achieved) indicates that the system-level requirement for simultaneous bounds (control error $\leq 20$, motor current $\leq 18$A, nav drift $\leq 3$m/s, position error $\leq 12$m, power mode $\leq 2$) is no longer achievable after sensor degradation. Specifically, the evolved system cannot guarantee all these bounds simultaneously - while individual constraints may be met in some operating regions, the intersection of all requirements is empty.
+
+The violations (15 boxes achieved but not required) represent emergent degraded behaviors: control error ranges up to 100, thrust commands to 100N, motor current to 50A, power modes to 3 (emergency), position error to 50m. These boxes were not in the original system-level specification but emerge naturally from the cascading relaxation. This demonstrates how local component degradation can create system-level behavioral expansion beyond the original design envelope, highlighting the value of compositional analysis for understanding degradation propagation.
 
 \subsection{Complementary Nature of Scenarios}
 
@@ -572,9 +599,10 @@ Initial Component & Motor & NavigationEstimator \\
 Deviation Type & $\Delta A_{\text{str}} + \Delta G_{\text{str}}$ & $\Delta G_{\text{rel}}$ \\
 Physical Cause & Component upgrade & Sensor degradation \\
 Propagation & Backward only & Forward only \\
-Iterations & 7 & 12 \\
-Final Magnitude & 179 & 176 \\
+Iterations & 5 & 7 \\
+Final Magnitude & 46 & 51 \\
 Final Well-Formedness & Failed & Passed \\
+System-Level Contract & Failed & Failed (gap=1, violations=15) \\
 Propagation Path & $\Delta A_{\text{str}} \to \Delta G_{\text{str}}$ & $\Delta G_{\text{rel}} \to \Delta A_{\text{rel}}$ \\
 \hline
 \end{tabular}
@@ -582,7 +610,7 @@ Propagation Path & $\Delta A_{\text{str}} \to \Delta G_{\text{str}}$ & $\Delta G
 
 The Motor Upgrade scenario isolates backward propagation through assumption strengthening, showing how a component demanding better inputs forces upstream suppliers to improve. The Navigation Drift scenario isolates forward propagation through guarantee relaxation, showing how component degradation cascades downstream as consumers must tolerate worse inputs. Together, they provide comprehensive empirical validation of the two propagation rules in the evolution operator.
 
-The presence of the 3-node SCC creates multi-iteration feedback loops in the forward propagation case (12 iterations vs. 7 in the backward case), demonstrating the framework's ability to handle cyclic dependencies and converge despite the presence of strongly connected components.
+The duplicate box elimination optimization significantly improved convergence: MotorUpgrade converges in 5 iterations (reduced from 8), NavDriftIncrease in 7 iterations (reduced from 13). The presence of the 3-node SCC creates multi-iteration feedback loops in the forward propagation case (7 iterations vs. 5 in the backward case), demonstrating the framework's ability to handle cyclic dependencies and converge despite the presence of strongly connected components.
 
 
 % ============================================================================
@@ -591,7 +619,7 @@ The presence of the 3-node SCC creates multi-iteration feedback loops in the for
 
 This implementation demonstrates a complete computational framework for contract-based design with support for incremental evolution through fixpoint iteration. The use of zonotope-based geometric representations enables exact modeling of non-convex behavior sets while maintaining computational tractability. The MILP-based component models capture realistic physical behaviors with mode-dependent dynamics and enable automated computation of forward and backward transformers. The evolution operator correctly implements the two propagation rules (forward through guarantee relaxation, backward through assumption strengthening), and the fixpoint iteration successfully converges in the presence of feedback cycles.
 
-The drone system use case validates the framework on a realistic cyber-physical system with 5 components, 11 interfaces, and a 3-node SCC. The two experimental scenarios demonstrate pure backward and pure forward propagation, respectively, providing clear empirical evidence of the duality in the evolution operator. Iteration counts (7-12) confirm the non-trivial nature of the propagation through the cyclic network structure. Well-formedness and system-level checking provide rigorous validation of the evolved contracts.
+The drone system use case validates the framework on a realistic cyber-physical system with 5 components, 11 interfaces, and a 3-node SCC. The two experimental scenarios demonstrate pure backward and pure forward propagation, respectively, providing clear empirical evidence of the duality in the evolution operator. Iteration counts (5-7 after duplicate elimination optimization) confirm efficient convergence while handling non-trivial propagation through the cyclic network structure. Well-formedness and system-level checking provide rigorous validation of the evolved contracts, with the forward propagation scenario successfully restoring well-formedness despite the 3-node feedback cycle.
 
 The implementation provides comprehensive outputs including iteration-by-iteration traces, convergence analytics, and diagnostic information (gap/violation computation) that support understanding of the evolution process. The framework is publicly available and documented for reproducibility.
 

@@ -365,6 +365,31 @@ class BehaviorSet:
         """Number of zonotope regions in the representation"""
         return len(self.regions)
     
+    def volume(self) -> float:
+        """
+        Compute the hypervolume of the behavior set.
+        
+        Returns the sum of volumes of all zonotope regions.
+        Note: This may overestimate if regions overlap (upper bound).
+        
+        Returns:
+            Total hypervolume (sum of individual region volumes)
+        """
+        if self.is_empty():
+            return 0.0
+        
+        total_volume = 0.0
+        for region in self.regions:
+            # Get bounding box for this zonotope
+            bounds = region.zonotope.to_box_bounds()
+            # Volume = product of all dimension ranges
+            region_volume = 1.0
+            for min_val, max_val in bounds:
+                region_volume *= (max_val - min_val)
+            total_volume += region_volume
+        
+        return total_volume
+    
     def __str__(self) -> str:
         if self.is_empty():
             return "BehaviorSet(∅)"

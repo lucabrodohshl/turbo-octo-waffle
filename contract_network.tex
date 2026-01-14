@@ -1,0 +1,34 @@
+\begin{tikzpicture}[node distance=2cm]
+
+% --- COMPONENT NODES ---
+\node[node] (Battery) at (0,0) {Battery};
+\node[node] (PowerManager) at (0,2) {Power Manager};
+\node[node] (Motor) at (3,2) {Motor};
+\node[node] (FlightController) at (6,2) {Flight Controller};
+\node[node] (NavigationEstimator) at (6,0) {Navigation Estimator};
+
+% --- INTERFACES ---
+% FlightController -> Motor: thrust_command
+\ConArrow[1]{FlightController}{Motor}
+% Motor -> FlightController: motor_response_time, motor_thrust
+\ConArrow[2]{Motor}{FlightController}
+% Motor -> PowerManager: motor_current
+\ConArrow[3]{Motor}{PowerManager}
+% PowerManager -> Motor: voltage_available
+\ConArrow[4]{PowerManager}{Motor}
+% PowerManager -> FlightController: power_mode
+\ConArrow[5]{PowerManager}{FlightController}
+% Battery -> PowerManager: battery_current, battery_voltage
+\ConArrow[6]{Battery}{PowerManager}
+% PowerManager -> Battery: power_mode
+\ConArrow[7]{PowerManager}{Battery}
+% NavigationEstimator -> FlightController: nav_position_error
+\ConArrow[8]{NavigationEstimator}{FlightController}
+% FlightController -> NavigationEstimator: control_error
+\ConArrow[9]{FlightController}{NavigationEstimator}
+% Motor -> NavigationEstimator: motor_current
+\ConArrow[10]{Motor}{NavigationEstimator}
+% PowerManager -> NavigationEstimator: power_mode
+\ConArrow[11]{PowerManager}{NavigationEstimator}
+
+\end{tikzpicture}

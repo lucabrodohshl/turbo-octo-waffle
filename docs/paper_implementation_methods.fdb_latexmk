@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1768236000.03281 "/Users/brdlcu/Documents/Github/turbo-octo-waffle/docs/paper_implementation_methods.tex" "paper_implementation_methods.pdf" "paper_implementation_methods" 1768236000.57701 0
-  "/Users/brdlcu/Documents/Github/turbo-octo-waffle/docs/paper_implementation_methods.tex" 1768235998.97053 46426 4e5f2b5b723df116e8eabdab835457bb ""
+["pdflatex"] 1768316224.93005 "/Users/brdlcu/Documents/Github/turbo-octo-waffle/docs/paper_implementation_methods.tex" "paper_implementation_methods.pdf" "paper_implementation_methods" 1768316225.49143 0
+  "/Users/brdlcu/Documents/Github/turbo-octo-waffle/docs/paper_implementation_methods.tex" 1768316224.68985 52388 8214367dd0b1e6db9a5e480b64e4f39f ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -53,8 +53,8 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1735079567.26917 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1735079487 8221435 46568828e2c2f4d7f9688c5e2a1e1b18 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "paper_implementation_methods.aux" 1768236000.52357 5845 cb4e5b942708ccfba46ad9ba82dc4c23 "pdflatex"
-  "paper_implementation_methods.tex" 1768235998.97053 46426 4e5f2b5b723df116e8eabdab835457bb ""
+  "paper_implementation_methods.aux" 1768316225.43383 5845 3592ff917ec44bf8571ec425612e2483 "pdflatex"
+  "paper_implementation_methods.tex" 1768316224.68985 52388 8214367dd0b1e6db9a5e480b64e4f39f ""
   (generated)
   "paper_implementation_methods.aux"
   "paper_implementation_methods.log"

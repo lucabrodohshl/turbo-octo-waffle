@@ -12,7 +12,7 @@ Deviation:
   ΔA_str (assumption strengthening):   8 boxes
   ΔG_rel (guarantee relaxation):       0 boxes
   ΔG_str (guarantee strengthening):    13 boxes
-  Total magnitude:                     21.00
+  Total magnitude:                     1634.72
 
 Baseline Contract:
   Assumptions:  1 boxes

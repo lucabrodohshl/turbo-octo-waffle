@@ -17,7 +17,7 @@ from src.network import EvolutionOperator, FixpointEngine, WellFormednessChecker
 from src.components import FlightController, Motor, PowerManager, Battery, NavigationEstimator
 from src.scenarios.motor_upgrade import create_motor_upgrade_scenario
 from src.scenarios.nav_drift_increase import create_nav_drift_scenario
-from src.visualization import draw_contract_network, plot_iteration_analytics
+from src.visualization import draw_contract_network, plot_iteration_analytics, plot_pgf_graphs
 
 
 def run_scenario(scenario, output_dir: str):
@@ -185,6 +185,13 @@ def run_scenario(scenario, output_dir: str):
     
     # Iteration analytics
     plot_iteration_analytics(
+        fixpoint_engine.metrics_history,
+        figures_dir,
+        scenario.name
+    )
+    
+    # PGF graphs for LaTeX
+    plot_pgf_graphs(
         fixpoint_engine.metrics_history,
         figures_dir,
         scenario.name
